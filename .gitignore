@@ -14,3 +14,6 @@ frontend/DriftApp/*.xcodeproj/xcuserdata/
 frontend/DriftApp/*.xcworkspace/xcuserdata/
 frontend/DriftApp/DerivedData/
 frontend/DriftApp/*.ipa
+
+output.txt
+.DS_Store
