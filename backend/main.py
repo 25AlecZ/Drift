@@ -32,6 +32,7 @@ semantic_filter_mod = load("03_filter_semantic.py")
 generate_mod        = load("04_generate.py")
 
 from firestore_sync import sync_nudges_to_firestore
+from contacts_lookup import build_contacts_map, resolve_name
 
 
 def main():
@@ -40,10 +41,13 @@ def main():
     all_contacts = filter_mod.get_contact_stats()
     candidates = filter_mod.apply_hard_cutoffs(all_contacts)
 
+    # Resolve contact names from macOS AddressBook
+    contacts_map = build_contacts_map()
+
     # Rename fields to match the Firestore data contract
     for c in candidates:
         c["phone_or_email"] = c.pop("contact_id")
-        c["contact_name"]   = c["phone_or_email"]  # chat.db has no names; iOS resolves from Contacts
+        c["contact_name"]   = resolve_name(c["phone_or_email"], contacts_map)
         c["drift_score"]    = round(c["total_messages"] / c["days_since_contact"], 2)
         c.pop("last_message_date", None)
 

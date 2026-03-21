@@ -139,6 +139,14 @@ All modules pass data as a `list[dict]`. Full schema:
 - Must return a list of dicts with all fields in the data contract above (except `talking_points`, `dismissed`, `created_at` — those are added later)
 - Database path: `~/Library/Messages/chat.db`
 - Apple timestamp epoch offset: add `978307200` to convert Apple timestamps to Unix time
+- **Use `contacts_lookup.py` to resolve phone numbers → display names** (see below)
+
+### `contacts_lookup.py`
+- Reads the macOS AddressBook SQLite database at `~/Library/Application Support/AddressBook/Sources/*/AddressBook-v22.abcddb`
+- Exposes `build_contacts_map()` which returns a dict mapping normalized phone/email → display name
+- Call this from `imessage_extract.py` to populate `contact_name` for each contact
+- Falls back to the raw phone number or email if no matching contact is found in AddressBook
+- Phone numbers are normalized (digits only) before matching to handle format differences between iMessage and AddressBook (e.g. `+1 (415) 555-0000` vs `+14155550000`)
 
 ---
 

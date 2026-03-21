@@ -1,3 +1,4 @@
+from typing import List
 from google.cloud.firestore_v1 import SERVER_TIMESTAMP
 from firebase_init import init_firebase
 
@@ -22,7 +23,7 @@ def upsert_nudge(db, contact: dict) -> None:
         "days_since_contact":    contact["days_since_contact"],
         "total_messages":        contact["total_messages"],
         "drift_score":           contact["drift_score"],
-        "last_message_preview":  contact["last_message_preview"],
+        "last_message_preview":  contact.get("last_message_preview", ""),
         "talking_points":        contact.get("talking_points", []),
         # "dismissed" intentionally absent — preserves the user's dismiss action across re-runs
         # "created_at" intentionally absent — only set once on first write below
@@ -36,7 +37,7 @@ def upsert_nudge(db, contact: dict) -> None:
         doc_ref.set(update_data, merge=True)
 
 
-def sync_nudges_to_firestore(contacts: list[dict]) -> None:
+def sync_nudges_to_firestore(contacts: List[dict]) -> None:
     """Write the full list of enriched contacts to Firestore. Called by main.py."""
     db = init_firebase()
     success, errors = 0, 0
