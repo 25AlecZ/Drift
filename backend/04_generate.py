@@ -7,11 +7,11 @@ Takes the filtered contact list from 02_filter.py and enriches each with talking
 import os
 import json
 import sqlite3
-import google.generativeai as genai
+from google import genai
 
 CHAT_DB = os.path.expanduser("~/Library/Messages/chat.db")
-GEMINI_MODEL = "gemini-1.5-flash"
-RECENT_MESSAGES_LIMIT = 50
+GEMINI_MODEL = "gemini-2.5-flash"
+RECENT_MESSAGES_LIMIT = 100
 
 
 def _get_recent_messages(contact_id):
@@ -49,24 +49,27 @@ def _call_gemini(contact, conversation):
     if not api_key:
         raise EnvironmentError("GEMINI_API_KEY environment variable not set.")
 
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel(GEMINI_MODEL)
+    client = genai.Client(api_key=api_key)
+    relationship_summary = contact.get("relationship_summary", "")
 
-    prompt = f"""You are helping someone reconnect with a friend they've drifted from.
+    prompt = f"""You are helping someone figure out what to talk about when reconnecting with a friend they've drifted from.
 
-Contact: {contact['phone_or_email']}
+Relationship: {relationship_summary}
 Days since last message: {contact['days_since_contact']}
 Total messages exchanged: {contact['total_messages']}
 
 Recent conversation:
 {conversation}
 
-Generate exactly 3 short, natural, friendly conversation starters this person could send to reconnect. Reference something specific from the conversation if possible — avoid generic openers.
+Based on the conversation history and relationship context, generate exactly 3 talking points — specific topics or things they could bring up when reaching out. These should be:
+- Short, punchy phrases (not full sentences or example texts)
+- Grounded in real things from the conversation (shared interests, inside jokes, recurring topics, life events mentioned)
+- Things that would feel natural and personal, not generic
 
 Respond with ONLY a JSON array of 3 strings, no explanation.
-Example: ["Hey! How did that trip go?", "Still thinking about what you said about X", "We should catch up soon!"]"""
+Example: ["His basketball league", "The road trip you both talked about planning", "Her new job in Austin"]"""
 
-    response = model.generate_content(prompt)
+    response = client.models.generate_content(model=GEMINI_MODEL, contents=prompt)
     text = response.text.strip()
 
     # Strip markdown code fences if Gemini wraps response in them
