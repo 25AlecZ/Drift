@@ -6,133 +6,126 @@ struct NudgeDetailView: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
+        VStack(spacing: 0) {
+            // X button
+            HStack {
+                Spacer()
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundStyle(.secondary)
+                        .padding(10)
+                        .background(Color(.systemGray5), in: Circle())
+                }
+            }
+            .padding(.horizontal)
+            .padding(.top, 16)
 
-                // Header
-                HStack(alignment: .top) {
-                    VStack(alignment: .leading, spacing: 4) {
+            ScrollView {
+                VStack(spacing: 24) {
+                    // Avatar + name + subtitle
+                    VStack(spacing: 12) {
+                        AvatarView(name: nudge.contact_name, size: 80)
                         Text(nudge.contact_name)
                             .font(.title.bold())
-                        Text("\(nudge.days_since_contact) days since last contact")
+                            .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
+                        Text("It's been \(nudge.days_since_contact) days")
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
-                        Text("\(nudge.total_messages) messages total")
-                            .font(.caption)
-                            .foregroundStyle(.tertiary)
                     }
-                    Spacer()
-                    DriftScoreBadge(score: nudge.drift_score)
-                }
-                .padding()
-                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
+                    .padding(.top, 8)
 
-                // Last message preview
-                if !nudge.last_message_preview.isEmpty {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Label("Last message", systemImage: "bubble.left")
-                            .font(.caption.bold())
-                            .foregroundStyle(.secondary)
-                        Text("\"\(nudge.last_message_preview)\"")
-                            .font(.subheadline)
-                            .foregroundStyle(.primary)
-                    }
-                    .padding()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
-                }
-
-                // Talking points
-                if !nudge.talking_points.isEmpty {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Label("Conversation starters", systemImage: "sparkles")
-                            .font(.caption.bold())
-                            .foregroundStyle(.secondary)
-
-                        ForEach(nudge.talking_points, id: \.self) { point in
-                            TalkingPointRow(text: point, phoneOrEmail: nudge.phone_or_email)
+                    // Talking points
+                    if !nudge.talking_points.isEmpty {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Talking points")
+                                .font(.subheadline.bold())
+                                .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
+                            ForEach(nudge.talking_points, id: \.self) { point in
+                                HStack(alignment: .top, spacing: 8) {
+                                    Text("•")
+                                        .foregroundStyle(.secondary)
+                                    Text(point)
+                                        .font(.subheadline)
+                                        .foregroundStyle(Color(red: 0.2, green: 0.22, blue: 0.28))
+                                }
+                            }
                         }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(16)
+                        .background(Color(.systemGray6), in: RoundedRectangle(cornerRadius: 14))
                     }
-                    .padding()
-                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
-                }
 
-                // Action buttons
-                VStack(spacing: 12) {
-                    Button {
-                        viewModel.sendMessage(to: nudge)
-                    } label: {
-                        Label("Send Message", systemImage: "message.fill")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundStyle(.white)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    // Stay in touch?
+                    VStack(spacing: 16) {
+                        Text("Stay in touch?")
                             .font(.headline)
-                    }
+                            .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
 
-                    HStack(spacing: 12) {
-                        Button {
-                            viewModel.keep(nudge: nudge)
-                            dismiss()
-                        } label: {
-                            Label("Keep", systemImage: "bookmark")
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(.regularMaterial)
-                                .foregroundStyle(.primary)
-                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                        HStack(spacing: 12) {
+                            Button {
+                                viewModel.sendMessage(to: nudge)
+                                dismiss()
+                            } label: {
+                                Text("Yes")
+                                    .font(.headline)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 16)
+                                    .background(Color(red: 0.13, green: 0.15, blue: 0.22))
+                                    .foregroundStyle(.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                            }
+
+                            Button {
+                                viewModel.dismiss(nudge: nudge)
+                                dismiss()
+                            } label: {
+                                Text("No")
+                                    .font(.headline)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 16)
+                                    .background(Color(.systemGray5))
+                                    .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
+                                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                            }
                         }
 
-                        Button(role: .destructive) {
-                            viewModel.dismiss(nudge: nudge)
+                        Button {
                             dismiss()
                         } label: {
-                            Label("Remove", systemImage: "xmark")
+                            Text("Snooze")
+                                .font(.headline)
                                 .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(.regularMaterial)
-                                .foregroundStyle(.red)
-                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .padding(.vertical, 16)
+                                .background(Color(.systemGray6))
+                                .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
+                                .clipShape(RoundedRectangle(cornerRadius: 14))
+                        }
+
+                        Button {
+                            viewModel.sendMessage(to: nudge)
+                            dismiss()
+                        } label: {
+                            Text("Go to chat →")
+                                .font(.headline)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(Color.white)
+                                .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
+                                .clipShape(RoundedRectangle(cornerRadius: 14))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 14)
+                                        .strokeBorder(Color(.systemGray4), lineWidth: 1)
+                                )
                         }
                     }
                 }
+                .padding(.horizontal)
+                .padding(.bottom, 32)
             }
-            .padding()
         }
-        .navigationTitle(nudge.contact_name)
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-private struct TalkingPointRow: View {
-    let text: String
-    let phoneOrEmail: String
-
-    var body: some View {
-        Button {
-            let encoded = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-            let raw = phoneOrEmail
-                .components(separatedBy: CharacterSet.decimalDigits.inverted)
-                .joined()
-            if let url = URL(string: "sms:\(raw)&body=\(encoded)") {
-                UIApplication.shared.open(url)
-            }
-        } label: {
-            HStack {
-                Text(text)
-                    .font(.subheadline)
-                    .foregroundStyle(.primary)
-                    .multilineTextAlignment(.leading)
-                Spacer()
-                Image(systemName: "arrow.up.message")
-                    .foregroundStyle(.blue)
-                    .font(.caption)
-            }
-            .padding(10)
-            .background(Color(.secondarySystemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-        }
-        .buttonStyle(.plain)
+        .background(Color.white)
     }
 }

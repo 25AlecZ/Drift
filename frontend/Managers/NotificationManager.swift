@@ -13,15 +13,14 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
     }
 
-    func scheduleNudge(for nudge: Nudge) {
+    func scheduleNudge(for nudge: Nudge, delay: TimeInterval = 5) {
         let content = UNMutableNotificationContent()
         content.title = "Stay in touch with \(nudge.contact_name)"
         content.body = nudge.talking_points.first ?? "It's been \(nudge.days_since_contact) days. Reach out!"
         content.sound = .default
         content.userInfo = ["nudgeId": nudge.id ?? ""]
 
-        // Fire after 5 seconds for testing; swap for a real trigger in production
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: delay, repeats: false)
         let request = UNNotificationRequest(
             identifier: nudge.id ?? UUID().uuidString,
             content: content,

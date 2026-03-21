@@ -4,59 +4,51 @@ struct NudgeCardView: View {
     let nudge: Nudge
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(nudge.contact_name)
-                        .font(.headline)
-                    Text("\(nudge.days_since_contact) days since last contact")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
-                Spacer()
-                DriftScoreBadge(score: nudge.drift_score)
+        HStack(spacing: 16) {
+            AvatarView(name: nudge.contact_name, size: 52)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(nudge.contact_name)
+                    .font(.headline)
+                    .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
+                Text("\(nudge.days_since_contact) days since last contact")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
             }
 
-            if !nudge.last_message_preview.isEmpty {
-                Text("\"\(nudge.last_message_preview)\"")
-                    .font(.caption)
-                    .foregroundStyle(.tertiary)
-                    .lineLimit(1)
+            Spacer()
+
+            ZStack {
+                Circle()
+                    .fill(Color(.systemGray5))
+                    .frame(width: 36, height: 36)
+                Image(systemName: "arrow.right")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundStyle(.secondary)
             }
         }
-        .padding()
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
-        .overlay(
-            RoundedRectangle(cornerRadius: 14)
-                .strokeBorder(urgencyColor(nudge.drift_score).opacity(0.3), lineWidth: 1)
-        )
-    }
-
-    private func urgencyColor(_ score: Double) -> Color {
-        switch score {
-        case 7...: return .red
-        case 4...: return .orange
-        default:   return .yellow
-        }
+        .padding(16)
+        .background(Color.white, in: RoundedRectangle(cornerRadius: 16))
+        .shadow(color: .black.opacity(0.06), radius: 6, x: 0, y: 2)
     }
 }
 
-struct DriftScoreBadge: View {
-    let score: Double
+struct AvatarView: View {
+    let name: String
+    let size: CGFloat
 
-    var body: some View {
-        VStack(spacing: 2) {
-            Text(String(format: "%.1f", score))
-                .font(.title2.bold())
-                .foregroundStyle(scoreColor)
-        }
+    var initials: String {
+        name.split(separator: " ").prefix(2).compactMap { $0.first }.map(String.init).joined()
     }
 
-    private var scoreColor: Color {
-        switch score {
-        case 7...: return .red
-        case 4...: return .orange
-        default:   return .yellow
+    var body: some View {
+        ZStack {
+            Circle()
+                .fill(Color(red: 0.13, green: 0.15, blue: 0.22))
+            Text(initials)
+                .foregroundStyle(.white)
+                .font(.system(size: size * 0.35, weight: .bold))
         }
+        .frame(width: size, height: size)
     }
 }
