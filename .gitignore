@@ -1,0 +1,16 @@
+# Firebase credentials
+backend/serviceAccountKey.json
+frontend/DriftApp/GoogleService-Info.plist
+
+# Python
+__pycache__/
+*.pyc
+.env
+venv/
+.venv/
+
+# Xcode
+frontend/DriftApp/*.xcodeproj/xcuserdata/
+frontend/DriftApp/*.xcworkspace/xcuserdata/
+frontend/DriftApp/DerivedData/
+frontend/DriftApp/*.ipa
