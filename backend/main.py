@@ -1,59 +1,58 @@
-import sys
+#!/usr/bin/env python3
+"""
+Drift - Main entry point.
+Run this to extract contacts, generate talking points, and sync to Firestore.
+
+Usage:
+    cd backend/
+    export GEMINI_API_KEY="your-key-here"
+    python3 main.py
+"""
+
 import os
 import importlib.util
-
-# Load 02_filter.py (importlib needed because filename starts with a digit)
-_filter_path = os.path.join(os.path.dirname(__file__), "02_filter.py")
-_spec = importlib.util.spec_from_file_location("filter02", _filter_path)
-_filter_mod = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(_filter_mod)
-get_drift_candidates = _filter_mod.get_drift_candidates
 
 from contacts_lookup import build_contacts_map, resolve_name
 from firestore_sync import sync_nudges_to_firestore
 
 
-def build_nudges() -> list:
-    """
-    Pull drift candidates from iMessage, resolve contact names,
-    and shape into the Firestore nudge schema.
-    """
-    print("[Drift] Loading contacts from AddressBook...")
-    contacts_map = build_contacts_map()
+def load(filename):
+    """Load a module from a file that starts with a number (e.g. 02_filter.py)."""
+    path = os.path.join(os.path.dirname(__file__), filename)
+    spec = importlib.util.spec_from_file_location(filename, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
-    print("[Drift] Extracting drift candidates from iMessage...")
-    candidates = get_drift_candidates()
-    print(f"[Drift] Found {len(candidates)} drift candidates.")
 
-    nudges = []
-    for c in candidates:
-        handle = c["contact_id"]
-        name = resolve_name(handle, contacts_map)
-        nudges.append({
-            "contact_name":          name,
-            "phone_or_email":        handle,
-            "days_since_contact":    c["days_since_contact"],
-            "total_messages":        c["total_messages"],
-            "drift_score":           c["drift_score"],
-            "last_message_preview":  "",   # TODO: add when teammate extracts last message text
-            "talking_points":        [],   # TODO: add when Gemini enrichment is implemented
-        })
-
-    return nudges
+filter_mod   = load("02_filter.py")
+generate_mod = load("03_generate.py")
 
 
 def main():
-    print("[Drift] Starting pipeline...\n")
-    nudges = build_nudges()
+    # Steps 1 & 2: Extract and filter contacts from iMessage
+    print("=== Steps 1 & 2: Extracting and filtering contacts ===")
+    all_contacts = filter_mod.get_contact_stats()
+    candidates = filter_mod.apply_hard_cutoffs(all_contacts)
 
-    print(f"\n[Drift] Preview of nudges to sync:")
-    print(f"{'Name':<25} {'Handle':<20} {'Days':>5} {'Score':>7}")
-    print("-" * 60)
-    for n in nudges:
-        print(f"{n['contact_name']:<25} {n['phone_or_email']:<20} {n['days_since_contact']:>5} {n['drift_score']:>7.2f}")
+    # Resolve contact names from macOS AddressBook
+    contacts_map = build_contacts_map()
+    for c in candidates:
+        c["phone_or_email"]      = c.pop("contact_id")
+        c["contact_name"]        = resolve_name(c["phone_or_email"], contacts_map)
+        c["drift_score"]         = round(c["total_messages"] / c["days_since_contact"], 2)
+        c.pop("last_message_date", None)
 
-    print(f"\n[Drift] Syncing {len(nudges)} nudges to Firestore...")
-    sync_nudges_to_firestore(nudges)
+    print(f"Found {len(candidates)} drift candidates\n")
+
+    # Step 3: Enrich with Gemini talking points
+    print("=== Step 3: Generating talking points with Gemini ===")
+    enriched = generate_mod.enrich_with_talking_points(candidates)
+    print()
+
+    # Step 4: Sync to Firestore
+    print("=== Step 4: Syncing to Firestore ===")
+    sync_nudges_to_firestore(enriched)
 
 
 if __name__ == "__main__":
