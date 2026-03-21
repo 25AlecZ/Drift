@@ -66,58 +66,6 @@ struct NudgeListView: View {
             selectedNudge = viewModel.nudges.first { $0.id == nudgeId }
         }
         .onAppear {
-            if viewModel.nudges.isEmpty {
-                viewModel.nudges = [
-                    Nudge(id: "1", contact_name: "Jake", phone_or_email: "+11234567890",
-                          days_since_contact: 45, total_messages: 200, drift_score: 6.2,
-                          talking_points: ["How's the new job?", "We should grab coffee"],
-                          last_message_preview: "Yeah let's hang soon", dismissed: false),
-                    Nudge(id: "2", contact_name: "Sarah", phone_or_email: "+10987654321",
-                          days_since_contact: 30, total_messages: 150, drift_score: 4.8,
-                          talking_points: ["Saw that movie you recommended!", "How's the family?"],
-                          last_message_preview: "Miss you!", dismissed: false),
-                    Nudge(id: "3", contact_name: "William", phone_or_email: "+16096423762",
-                          days_since_contact: 30, total_messages: 150, drift_score: 9.8,
-                          talking_points: ["Saw that movie you recommended!", "How's the family?"],
-                          last_message_preview: "Miss you!", dismissed: false),
-                    Nudge(id: "4", contact_name: "William", phone_or_email: "+16096423762",
-                          days_since_contact: 30, total_messages: 150, drift_score: 9.8,
-                          talking_points: ["Saw that movie you recommended!", "How's the family?"],
-                          last_message_preview: "Miss you!", dismissed: false),
-                    Nudge(id: "5", contact_name: "William", phone_or_email: "+16096423762",
-                          days_since_contact: 30, total_messages: 150, drift_score: 9.8,
-                          talking_points: ["Saw that movie you recommended!", "How's the family?"],
-                          last_message_preview: "Miss you!", dismissed: false),
-                    Nudge(id: "6", contact_name: "William", phone_or_email: "+16096423762",
-                          days_since_contact: 30, total_messages: 150, drift_score: 9.8,
-                          talking_points: ["Saw that movie you recommended!", "How's the family?"],
-                          last_message_preview: "Miss you!", dismissed: false),
-                    Nudge(id: "7", contact_name: "William", phone_or_email: "+16096423762",
-                          days_since_contact: 30, total_messages: 150, drift_score: 9.8,
-                          talking_points: ["Saw that movie you recommended!", "How's the family?"],
-                          last_message_preview: "Miss you!", dismissed: false),
-                    Nudge(id: "8", contact_name: "William", phone_or_email: "+16096423762",
-                          days_since_contact: 30, total_messages: 150, drift_score: 9.8,
-                          talking_points: ["Saw that movie you recommended!", "How's the family?"],
-                          last_message_preview: "Miss you!", dismissed: false),
-                    Nudge(id: "9", contact_name: "William", phone_or_email: "+16096423762",
-                          days_since_contact: 30, total_messages: 150, drift_score: 9.8,
-                          talking_points: ["Saw that movie you recommended!", "How's the family?"],
-                          last_message_preview: "Miss you!", dismissed: false),
-                    Nudge(id: "10", contact_name: "William", phone_or_email: "+16096423762",
-                          days_since_contact: 30, total_messages: 150, drift_score: 9.8,
-                          talking_points: ["Saw that movie you recommended!", "How's the family?"],
-                          last_message_preview: "Miss you!", dismissed: false),
-                    Nudge(id: "11", contact_name: "William", phone_or_email: "+16096423762",
-                          days_since_contact: 30, total_messages: 150, drift_score: 9.8,
-                          talking_points: ["Saw that movie you recommended!", "How's the family?"],
-                          last_message_preview: "Miss you!", dismissed: false),
-                    Nudge(id: "12", contact_name: "William", phone_or_email: "+16096423762",
-                          days_since_contact: 30, total_messages: 150, drift_score: 9.8,
-                          talking_points: ["Saw that movie you recommended!", "How's the family?"],
-                          last_message_preview: "Miss you!", dismissed: false)
-                ]
-            }
             viewModel.startListening()
         }
         .onDisappear { viewModel.stopListening() }

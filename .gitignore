@@ -1,6 +1,7 @@
 # Firebase credentials
 backend/serviceAccountKey.json
 frontend/DriftApp/GoogleService-Info.plist
+frontend/GoogleService-Info.plist
 
 # Python
 __pycache__/
@@ -10,10 +11,14 @@ venv/
 .venv/
 
 # Xcode
-frontend/DriftApp/*.xcodeproj/xcuserdata/
-frontend/DriftApp/*.xcworkspace/xcuserdata/
-frontend/DriftApp/DerivedData/
-frontend/DriftApp/*.ipa
+xcuserdata/
+*.xcuserstate
+*.xcuserdatad/
+DerivedData/
+*.ipa
+*.dSYM.zip
+*.dSYM
+build/
 
 output.txt
 .DS_Store

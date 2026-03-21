@@ -1,8 +1,10 @@
 import SwiftUI
+import FirebaseCore
 
 @main
 struct DriftApp: App {
     init() {
+        FirebaseApp.configure()
         NotificationManager.shared.requestPermission()
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
