@@ -5,13 +5,18 @@ Run this to extract contacts, generate talking points, and sync to Firestore.
 
 Usage:
     cd backend/
-    export GEMINI_API_KEY="your-key-here"
     python3 main.py
+
+    Requires: backend/.env with GEMINI_API_KEY and backend/serviceAccountKey.json
 """
 
-import sys
 import os
 import importlib.util
+from dotenv import load_dotenv
+
+# Load .env from the backend/ folder
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+
 
 def load(filename):
     """Load a module from a file that starts with a number (e.g. 02_filter.py)."""
@@ -21,14 +26,16 @@ def load(filename):
     spec.loader.exec_module(mod)
     return mod
 
-filter_mod   = load("02_filter.py")
-generate_mod = load("03_generate.py")
+
+filter_mod          = load("02_filter.py")
+semantic_filter_mod = load("03_filter_semantic.py")
+generate_mod        = load("04_generate.py")
 
 from firestore_sync import sync_nudges_to_firestore
 
 
 def main():
-    # Steps 1 & 2: Extract and filter contacts from iMessage
+    # Steps 1 & 2: Extract and hard-filter contacts from iMessage
     print("=== Steps 1 & 2: Extracting and filtering contacts ===")
     all_contacts = filter_mod.get_contact_stats()
     candidates = filter_mod.apply_hard_cutoffs(all_contacts)
@@ -40,15 +47,19 @@ def main():
         c["drift_score"]    = round(c["total_messages"] / c["days_since_contact"], 2)
         c.pop("last_message_date", None)
 
-    print(f"Found {len(candidates)} drift candidates\n")
+    print(f"Found {len(candidates)} candidates after hard cutoffs\n")
 
-    # Step 3: Enrich with Gemini talking points
-    print("=== Step 3: Generating talking points with Gemini ===")
-    enriched = generate_mod.enrich_with_talking_points(candidates)
+    # Step 3: Semantic filter — Gemini reads conversations and decides who's worth reconnecting with
+    print("=== Step 3: Semantic filtering with Gemini ===")
+    recommended = semantic_filter_mod.semantic_filter(candidates)
+
+    # Step 4: Generate talking points for recommended contacts only
+    print("=== Step 4: Generating talking points with Gemini ===")
+    enriched = generate_mod.enrich_with_talking_points(recommended)
     print()
 
-    # Step 4: Sync to Firestore
-    print("=== Step 4: Syncing to Firestore ===")
+    # Step 5: Sync to Firestore
+    print("=== Step 5: Syncing to Firestore ===")
     sync_nudges_to_firestore(enriched)
 
 
