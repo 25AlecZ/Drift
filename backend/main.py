@@ -57,8 +57,8 @@ def main():
             continue
         enriched_candidates.append(c)
 
-    candidates = enriched_candidates
-    print(f"Found {len(candidates)} candidates after hard cutoffs + contacts filter\n")
+    candidates = enriched_candidates[:10]  # limit for testing — raise for production
+    print(f"Found {len(enriched_candidates)} saved contacts, sending top {len(candidates)} to Gemini\n")
 
     # Step 3: Semantic filter — Gemini reads conversations and decides who's worth reconnecting with
     print("=== Step 3: Semantic filtering with Gemini ===")
@@ -69,8 +69,15 @@ def main():
     enriched = generate_mod.enrich_with_talking_points(recommended)
     print()
 
+    # Print results
+    print("=== Results ===")
+    for c in enriched:
+        print(f"\n{c['contact_name']} ({c['days_since_contact']} days ago)")
+        for point in c.get("talking_points", []):
+            print(f"  • {point}")
+
     # Step 5: Sync to Firestore
-    print("=== Step 5: Syncing to Firestore ===")
+    print("\n=== Step 5: Syncing to Firestore ===")
     sync_nudges_to_firestore(enriched)
 
 
