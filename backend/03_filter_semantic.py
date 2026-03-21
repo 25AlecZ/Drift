@@ -63,12 +63,13 @@ Stats:
 Conversation history (most recent {RECENT_MESSAGES_LIMIT} messages):
 {conversation}
 
-Analyze this conversation and answer:
-1. Does this look like a genuine friendship worth rekindling? Consider:
-   - Did the conversation end naturally or on bad terms?
-   - Was the relationship warm and mutual, or one-sided?
-   - Are there shared interests, inside jokes, or meaningful topics?
-2. Summarize the relationship in one sentence.
+Analyze this conversation and decide if this is a friendship genuinely worth rekindling. Be selective and conservative — most should NOT be recommended. Only recommend if ALL of the following are true:
+   - The relationship was clearly warm, mutual, and meaningful (not just acquaintances or people who texted occasionally)
+   - The conversation did NOT end on bad terms, with conflict, or with one person clearly pulling away
+   - There are real shared interests, inside jokes, or personal topics — not just logistics or surface-level chat
+   - This is someone you'd actually want back in your life, not just someone you used to know
+
+Default to NOT recommending. Only say true if you're confident.
 
 Respond with ONLY a JSON object, no explanation:
 {{

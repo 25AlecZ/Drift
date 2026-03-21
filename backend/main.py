@@ -44,14 +44,21 @@ def main():
     # Resolve contact names from macOS AddressBook
     contacts_map = build_contacts_map()
 
-    # Rename fields to match the Firestore data contract
+    # Rename fields and filter to saved contacts only
+    enriched_candidates = []
     for c in candidates:
         c["phone_or_email"] = c.pop("contact_id")
         c["contact_name"]   = resolve_name(c["phone_or_email"], contacts_map)
         c["drift_score"]    = round(c["total_messages"] / c["days_since_contact"], 2)
         c.pop("last_message_date", None)
 
-    print(f"Found {len(candidates)} candidates after hard cutoffs\n")
+        # Skip if not in AddressBook (resolve_name returns raw handle if no match)
+        if c["contact_name"] == c["phone_or_email"]:
+            continue
+        enriched_candidates.append(c)
+
+    candidates = enriched_candidates
+    print(f"Found {len(candidates)} candidates after hard cutoffs + contacts filter\n")
 
     # Step 3: Semantic filter — Gemini reads conversations and decides who's worth reconnecting with
     print("=== Step 3: Semantic filtering with Gemini ===")
