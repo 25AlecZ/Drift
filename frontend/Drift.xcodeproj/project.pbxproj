@@ -1,0 +1,411 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		44AF79492F6F2DE700879CDF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 44AF79482F6F2DE700879CDF /* FirebaseFirestore */; };
+		44AF794C2F6F2DE700879CDF /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 44AF794D2F6F2DE700879CDF /* FirebaseCore */; };
+		44AF794D2F6F3D4000879CDF /* Sparkling Valentine.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 44AF794C2F6F3D4000879CDF /* Sparkling Valentine.ttf */; };
+		44AF79512F6F3FF000879CDF /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44AF794F2F6F3FF000879CDF /* NotificationManager.swift */; };
+		DB0000000000000000000001 /* DriftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0000000000000000000001 /* DriftApp.swift */; };
+		DB0000000000000000000002 /* Nudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0000000000000000000002 /* Nudge.swift */; };
+		DB0000000000000000000003 /* NudgeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0000000000000000000003 /* NudgeViewModel.swift */; };
+		DB0000000000000000000004 /* NudgeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0000000000000000000004 /* NudgeListView.swift */; };
+		DB0000000000000000000005 /* NudgeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0000000000000000000005 /* NudgeCardView.swift */; };
+		DB0000000000000000000006 /* NudgeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0000000000000000000006 /* NudgeDetailView.swift */; };
+		DB0000000000000000000007 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA0000000000000000000007 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		44AF794C2F6F3D4000879CDF /* Sparkling Valentine.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sparkling Valentine.ttf"; sourceTree = "<group>"; };
+		44AF794E2F6F3DB600879CDF /* Drift-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Drift-Info.plist"; sourceTree = "<group>"; };
+		44AF794F2F6F3FF000879CDF /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		DA0000000000000000000001 /* DriftApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriftApp.swift; sourceTree = "<group>"; };
+		DA0000000000000000000002 /* Nudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nudge.swift; sourceTree = "<group>"; };
+		DA0000000000000000000003 /* NudgeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgeViewModel.swift; sourceTree = "<group>"; };
+		DA0000000000000000000004 /* NudgeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgeListView.swift; sourceTree = "<group>"; };
+		DA0000000000000000000005 /* NudgeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgeCardView.swift; sourceTree = "<group>"; };
+		DA0000000000000000000006 /* NudgeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgeDetailView.swift; sourceTree = "<group>"; };
+		DA0000000000000000000007 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DD0000000000000000000001 /* Drift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Drift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DG0000000000000000000003 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				44AF79492F6F2DE700879CDF /* FirebaseFirestore in Frameworks */,
+				44AF794C2F6F2DE700879CDF /* FirebaseCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4415CD162F6F26420028BAB4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		44AF79502F6F3FF000879CDF /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				44AF794F2F6F3FF000879CDF /* NotificationManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		DC0000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				44AF794E2F6F3DB600879CDF /* Drift-Info.plist */,
+				DA0000000000000000000001 /* DriftApp.swift */,
+				44AF794C2F6F3D4000879CDF /* Sparkling Valentine.ttf */,
+				44AF79502F6F3FF000879CDF /* Managers */,
+				DC0000000000000000000003 /* Models */,
+				DC0000000000000000000004 /* ViewModels */,
+				DC0000000000000000000005 /* Views */,
+				DA0000000000000000000007 /* Assets.xcassets */,
+				4415CD162F6F26420028BAB4 /* Frameworks */,
+				DC0000000000000000000006 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DC0000000000000000000003 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DA0000000000000000000002 /* Nudge.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DC0000000000000000000004 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				DA0000000000000000000003 /* NudgeViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		DC0000000000000000000005 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DA0000000000000000000004 /* NudgeListView.swift */,
+				DA0000000000000000000005 /* NudgeCardView.swift */,
+				DA0000000000000000000006 /* NudgeDetailView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DC0000000000000000000006 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DD0000000000000000000001 /* Drift.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DE0000000000000000000001 /* Drift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DI0000000000000000000001 /* Build configuration list for PBXNativeTarget "Drift" */;
+			buildPhases = (
+				DG0000000000000000000001 /* Sources */,
+				DG0000000000000000000002 /* Resources */,
+				DG0000000000000000000003 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Drift;
+			packageProductDependencies = (
+				44AF79482F6F2DE700879CDF /* FirebaseFirestore */,
+				44AF794D2F6F2DE700879CDF /* FirebaseCore */,
+			);
+			productName = Drift;
+			productReference = DD0000000000000000000001 /* Drift.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DF0000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 2630;
+				TargetAttributes = {
+					DE0000000000000000000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = DI0000000000000000000002 /* Build configuration list for PBXProject "Drift" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DC0000000000000000000001;
+			packageReferences = (
+				44AF79472F6F2D8900879CDF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
+			productRefGroup = DC0000000000000000000006 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DE0000000000000000000001 /* Drift */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DG0000000000000000000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				44AF794D2F6F3D4000879CDF /* Sparkling Valentine.ttf in Resources */,
+				DB0000000000000000000007 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DG0000000000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB0000000000000000000001 /* DriftApp.swift in Sources */,
+				DB0000000000000000000002 /* Nudge.swift in Sources */,
+				DB0000000000000000000003 /* NudgeViewModel.swift in Sources */,
+				DB0000000000000000000004 /* NudgeListView.swift in Sources */,
+				44AF79512F6F3FF000879CDF /* NotificationManager.swift in Sources */,
+				DB0000000000000000000005 /* NudgeCardView.swift in Sources */,
+				DB0000000000000000000006 /* NudgeDetailView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		DH0000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Drift-Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.drift.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		DH0000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Drift-Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.drift.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		DH0000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DH0000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DI0000000000000000000001 /* Build configuration list for PBXNativeTarget "Drift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DH0000000000000000000001 /* Debug */,
+				DH0000000000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DI0000000000000000000002 /* Build configuration list for PBXProject "Drift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DH0000000000000000000003 /* Debug */,
+				DH0000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		44AF79472F6F2D8900879CDF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.11.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		44AF79482F6F2DE700879CDF /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 44AF79472F6F2D8900879CDF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		44AF794D2F6F2DE700879CDF /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 44AF79472F6F2D8900879CDF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = DF0000000000000000000001 /* Project object */;
+}
