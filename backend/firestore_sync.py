@@ -23,7 +23,7 @@ def upsert_nudge(db, contact: dict) -> None:
         "days_since_contact":    contact["days_since_contact"],
         "total_messages":        contact["total_messages"],
         "drift_score":           contact["drift_score"],
-        "last_message_preview":  contact["last_message_preview"],
+        "last_message_preview":  contact.get("last_message_preview", ""),
         "talking_points":        contact.get("talking_points", []),
         # "dismissed" intentionally absent — preserves the user's dismiss action across re-runs
         # "created_at" intentionally absent — only set once on first write below
