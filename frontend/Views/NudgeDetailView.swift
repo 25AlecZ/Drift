@@ -153,3 +153,20 @@ struct NudgeDetailView: View {
         .background(Color.white)
     }
 }
+
+#Preview {
+    let vm = NudgeViewModel()
+    let nudge = Nudge(
+        id: "1",
+        contact_name: "Alex Bennett",
+        phone_or_email: "+11234567890",
+        days_since_contact: 67,
+        total_messages: 200,
+        drift_score: 6.2,
+        talking_points: ["New job update", "That book you were reading", "Warriors playoff run"],
+        conversation_starters: ["yo how's the new job going??", "did you ever finish that book lol", "bro are you watching the warriors rn"],
+        last_message_preview: "Yeah let's hang soon",
+        dismissed: false
+    )
+    return NudgeDetailView(nudge: nudge, viewModel: vm)
+}

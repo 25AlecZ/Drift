@@ -28,6 +28,10 @@ struct DriftApp: App {
     }
 }
 
+#Preview("Splash") {
+    SplashView()
+}
+
 struct SplashView: View {
     @State private var isActive = false
     @State private var opacity = 1.0

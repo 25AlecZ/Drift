@@ -52,3 +52,21 @@ struct AvatarView: View {
         .frame(width: size, height: size)
     }
 }
+
+#Preview {
+    let nudge = Nudge(
+        id: "1",
+        contact_name: "Alex Bennett",
+        phone_or_email: "+11234567890",
+        days_since_contact: 67,
+        total_messages: 200,
+        drift_score: 6.2,
+        talking_points: ["New job update", "That book you were reading"],
+        conversation_starters: ["yo how's the new job going??", "did you ever finish that book lol"],
+        last_message_preview: "Yeah let's hang soon",
+        dismissed: false
+    )
+    return NudgeCardView(nudge: nudge)
+        .padding()
+        .background(Color(red: 0.87, green: 0.85, blue: 0.80))
+}
