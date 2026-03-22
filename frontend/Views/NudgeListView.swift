@@ -3,6 +3,7 @@ import SwiftUI
 struct NudgeListView: View {
     @StateObject private var viewModel: NudgeViewModel
     @State private var selectedNudge: Nudge? = nil
+    @State private var highlightedTalkingPointIndex: Int? = nil
     @State private var showNotifications = false
     @State private var pendingNotificationIds: Set<String> = []
 
@@ -65,10 +66,10 @@ struct NudgeListView: View {
                                 .font(.system(size: 48))
                                 .foregroundStyle(Color(red: 0.13, green: 0.15, blue: 0.22))
                             Text("No nudges right now")
-                                .font(.custom("EBGaramond", size: 20))
+                                .font(.custom("EBGaramond-Regular", size: 20))
                                 .foregroundStyle(Color(red: 0.13, green: 0.15, blue: 0.22))
                             Text("You're keeping up with everyone!")
-                                .font(.custom("EBGaramond", size: 15))
+                                .font(.custom("EBGaramond-Regular", size: 15))
                                 .foregroundStyle(Color(red: 0.13, green: 0.15, blue: 0.22).opacity(0.6))
                         }
                         Spacer()
@@ -93,7 +94,8 @@ struct NudgeListView: View {
             .navigationBarHidden(true)
         }
         .sheet(item: $selectedNudge) { nudge in
-            NudgeDetailView(nudge: nudge, viewModel: viewModel)
+            NudgeDetailView(nudge: nudge, viewModel: viewModel, highlightedTalkingPointIndex: highlightedTalkingPointIndex)
+                .onDisappear { highlightedTalkingPointIndex = nil }
         }
         .sheet(isPresented: $showNotifications) {
             NotificationListSheet(nudges: pendingNudges) { nudge in
@@ -105,8 +107,11 @@ struct NudgeListView: View {
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .didTapNudgeNotification)) { note in
-            guard let nudgeId = note.object as? String else { return }
+            guard let info = note.object as? [String: Any],
+                  let nudgeId = info["nudgeId"] as? String else { return }
+            let index = info["talkingPointIndex"] as? Int
             pendingNotificationIds.insert(nudgeId)
+            highlightedTalkingPointIndex = index
             selectedNudge = viewModel.nudges.first { $0.id == nudgeId }
         }
         .onAppear {
@@ -133,7 +138,7 @@ private struct NotificationListSheet: View {
         VStack(spacing: 0) {
             HStack {
                 Text("Recent Nudges")
-                    .font(.custom("EBGaramond", size: 17).bold())
+                    .font(.custom("EBGaramond-Regular", size: 17).bold())
                     .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                 Spacer()
                 Button {
@@ -166,11 +171,11 @@ private struct NotificationListSheet: View {
                                     AvatarView(name: nudge.contact_name, size: 44)
                                     VStack(alignment: .leading, spacing: 2) {
                                         Text("Stay in touch with \(nudge.contact_name)")
-                                            .font(.custom("EBGaramond", size: 15).bold())
+                                            .font(.custom("EBGaramond-Regular", size: 15).bold())
                                             .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                                             .multilineTextAlignment(.leading)
                                         Text("It's been \(nudge.days_since_contact) days")
-                                            .font(.custom("EBGaramond", size: 13))
+                                            .font(.custom("EBGaramond-Regular", size: 13))
                                             .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
                                     }
                                     Spacer()

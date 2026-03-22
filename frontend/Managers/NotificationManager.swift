@@ -18,7 +18,7 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         content.title = "Stay in touch with \(nudge.contact_name)"
         content.body = nudge.talking_points.first ?? "It's been \(nudge.days_since_contact) days. Reach out!"
         content.sound = .default
-        content.userInfo = ["nudgeId": nudge.id ?? ""]
+        content.userInfo = ["nudgeId": nudge.id ?? "", "talkingPointIndex": 0]
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: delay, repeats: false)
         let request = UNNotificationRequest(
@@ -41,7 +41,7 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
             content.title = "Stay in touch with \(nudge.contact_name)"
             content.body = nudge.talking_points.first ?? "It's been \(nudge.days_since_contact) days. Reach out!"
             content.sound = .default
-            content.userInfo = ["nudgeId": nudge.id ?? ""]
+            content.userInfo = ["nudgeId": nudge.id ?? "", "talkingPointIndex": 0]
 
             // Random time within the next 7 days (between 1 and 7 days from now)
             let randomDelay = TimeInterval.random(in: 86400...604800)
@@ -61,8 +61,10 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
-        let nudgeId = response.notification.request.content.userInfo["nudgeId"] as? String ?? ""
-        NotificationCenter.default.post(name: .didTapNudgeNotification, object: nudgeId)
+        let userInfo = response.notification.request.content.userInfo
+        let nudgeId = userInfo["nudgeId"] as? String ?? ""
+        let talkingPointIndex = userInfo["talkingPointIndex"] as? Int ?? 0
+        NotificationCenter.default.post(name: .didTapNudgeNotification, object: ["nudgeId": nudgeId, "talkingPointIndex": talkingPointIndex])
         completionHandler()
     }
 

@@ -4,6 +4,7 @@ import UserNotifications
 struct NudgeDetailView: View {
     let nudge: Nudge
     @ObservedObject var viewModel: NudgeViewModel
+    var highlightedTalkingPointIndex: Int? = nil
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -30,10 +31,10 @@ struct NudgeDetailView: View {
                     VStack(spacing: 12) {
                         AvatarView(name: nudge.contact_name, size: 80)
                         Text(nudge.contact_name)
-                            .font(.custom("EBGaramond", size: 28).bold())
+                            .font(.custom("EBGaramond-Regular", size: 28).bold())
                             .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                         Text(nudge.subtitle.isEmpty ? "It's been \(nudge.days_since_contact) days" : nudge.subtitle)
-                            .font(.custom("EBGaramond", size: 15))
+                            .font(.custom("EBGaramond-Regular", size: 15))
                             .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
                     }
                     .padding(.top, 8)
@@ -42,7 +43,7 @@ struct NudgeDetailView: View {
                     if !nudge.talking_points.isEmpty {
                         VStack(alignment: .leading, spacing: 16) {
                             Text("Talking points")
-                                .font(.custom("EBGaramond", size: 18).bold())
+                                .font(.custom("EBGaramond-Regular", size: 18).bold())
                                 .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                                 .frame(maxWidth: .infinity, alignment: .center)
                             ForEach(Array(nudge.talking_points.enumerated()), id: \.offset) { index, point in
@@ -59,20 +60,20 @@ struct NudgeDetailView: View {
                                     dismiss()
                                 } label: {
                                     HStack(alignment: .top, spacing: 10) {
-                                        Text("•")
-                                            .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
-                                        Text(point)
-                                            .font(.custom("EBGaramond", size: 18))
-                                            .foregroundStyle(Color(red: 0.2, green: 0.22, blue: 0.28))
-                                            .multilineTextAlignment(.leading)
-                                        Spacer()
                                         Image(systemName: "arrow.up.message")
                                             .font(.system(size: 16))
                                             .foregroundStyle(Color(red: 0.2, green: 0.4, blue: 0.9))
+                                            .padding(.top, 2)
+                                        Text(point)
+                                            .font(.custom("EBGaramond-Regular", size: 18).weight(highlightedTalkingPointIndex == index ? .bold : .regular))
+                                            .foregroundStyle(Color(red: 0.2, green: 0.22, blue: 0.28))
+                                            .multilineTextAlignment(.leading)
+                                        Spacer()
                                     }
                                     .padding(.vertical, 4)
                                 }
                                 .buttonStyle(.plain)
+                                .padding(.leading, 12)
                             }
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -83,7 +84,7 @@ struct NudgeDetailView: View {
                     // Stay in touch?
                     VStack(spacing: 16) {
                         Text("Stay in touch?")
-                            .font(.custom("EBGaramond", size: 17).bold())
+                            .font(.custom("EBGaramond-Regular", size: 17).bold())
                             .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
 
                         HStack(spacing: 12) {
@@ -92,7 +93,7 @@ struct NudgeDetailView: View {
                                 dismiss()
                             } label: {
                                 Text("Yes")
-                                    .font(.custom("EBGaramond", size: 17).bold())
+                                    .font(.custom("EBGaramond-Regular", size: 17).bold())
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 16)
                                     .background(Color(red: 0.13, green: 0.15, blue: 0.22))
@@ -105,7 +106,7 @@ struct NudgeDetailView: View {
                                 dismiss()
                             } label: {
                                 Text("No")
-                                    .font(.custom("EBGaramond", size: 17).bold())
+                                    .font(.custom("EBGaramond-Regular", size: 17).bold())
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 16)
                                     .background(Color(red: 0.90, green: 0.90, blue: 0.92))
@@ -122,7 +123,7 @@ struct NudgeDetailView: View {
                             dismiss()
                         } label: {
                             Label("Snooze", systemImage: "moon.fill")
-                                .font(.custom("EBGaramond", size: 17).bold())
+                                .font(.custom("EBGaramond-Regular", size: 17).bold())
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 16)
                                 .background(Color(red: 0.95, green: 0.95, blue: 0.97))
@@ -135,7 +136,7 @@ struct NudgeDetailView: View {
                             dismiss()
                         } label: {
                             Text("Go to chat →")
-                                .font(.custom("EBGaramond", size: 17).bold())
+                                .font(.custom("EBGaramond-Regular", size: 17).bold())
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 16)
                                 .background(Color.white)

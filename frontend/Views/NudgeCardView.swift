@@ -9,10 +9,10 @@ struct NudgeCardView: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(nudge.contact_name)
-                    .font(.custom("EBGaramond", size: 17).bold())
+                    .font(.custom("EBGaramond-Regular", size: 17).bold())
                     .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                 Text(nudge.subtitle.isEmpty ? "\(nudge.days_since_contact) days since last contact" : nudge.subtitle)
-                    .font(.custom("EBGaramond", size: 15))
+                    .font(.custom("EBGaramond-Regular", size: 15))
                     .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
             }
 

@@ -62,7 +62,7 @@ def main():
             continue
         enriched_candidates.append(c)
 
-    candidates = enriched_candidates[:15]
+    candidates = enriched_candidates[:10]
     print(f"Found {len(enriched_candidates)} saved contacts, sending top {len(candidates)} to Gemini\n")
 
     # Step 3: Semantic filter — Gemini reads conversations and decides who's worth reconnecting with
