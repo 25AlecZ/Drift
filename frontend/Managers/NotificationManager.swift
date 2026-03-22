@@ -15,10 +15,11 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
 
     func scheduleNudge(for nudge: Nudge, delay: TimeInterval = 5) {
         let content = UNMutableNotificationContent()
+        let talkingPointIndex = Int.random(in: 0..<max(1, nudge.talking_points.count))
         content.title = "Stay in touch with \(nudge.contact_name)"
-        content.body = nudge.talking_points.first ?? "It's been \(nudge.days_since_contact) days. Reach out!"
+        content.body = nudge.talking_points.indices.contains(talkingPointIndex) ? nudge.talking_points[talkingPointIndex] : "It's been \(nudge.days_since_contact) days. Reach out!"
         content.sound = .default
-        content.userInfo = ["nudgeId": nudge.id ?? "", "talkingPointIndex": 0]
+        content.userInfo = ["nudgeId": nudge.id ?? "", "talkingPointIndex": talkingPointIndex]
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: delay, repeats: false)
         let request = UNNotificationRequest(
@@ -36,10 +37,11 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
 
         for nudge in nudges {
             let content = UNMutableNotificationContent()
+            let talkingPointIndex = Int.random(in: 0..<max(1, nudge.talking_points.count))
             content.title = "Stay in touch with \(nudge.contact_name)"
-            content.body = nudge.talking_points.first ?? "It's been \(nudge.days_since_contact) days. Reach out!"
+            content.body = nudge.talking_points.indices.contains(talkingPointIndex) ? nudge.talking_points[talkingPointIndex] : "It's been \(nudge.days_since_contact) days. Reach out!"
             content.sound = .default
-            content.userInfo = ["nudgeId": nudge.id ?? "", "talkingPointIndex": 0]
+            content.userInfo = ["nudgeId": nudge.id ?? "", "talkingPointIndex": talkingPointIndex]
 
             let randomDelay = TimeInterval.random(in: 86400...604800)
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: randomDelay, repeats: false)

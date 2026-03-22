@@ -149,13 +149,48 @@ struct NudgeListView: View {
         .onAppear {
             viewModel.startListening()
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                let shuffled = viewModel.nudges.shuffled()
-                if let first = shuffled.first {
-                    NotificationManager.shared.scheduleNudge(for: first, delay: 8)
-                }
-                if shuffled.count > 1 {
-                    NotificationManager.shared.scheduleNudge(for: shuffled[1], delay: 13)
-                }
+                let jadenNudge = Nudge(
+                    id: "jaden-demo",
+                    contact_name: "Jaden",
+                    phone_or_email: "",
+                    days_since_contact: 22,
+                    total_messages: 180,
+                    drift_score: 4.8,
+                    talking_points: ["That new hike you wanted to check out", "Dinner spot"],
+                    conversation_starters: ["yo you ever end up doing that hike?", "dude we need to find a new dinner spot fr"],
+                    subtitle: "Time to reconnect after 22 days?",
+                    last_message_preview: "",
+                    dismissed: false
+                )
+                let graceNudge = Nudge(
+                    id: "grace-demo",
+                    contact_name: "Grace",
+                    phone_or_email: "",
+                    days_since_contact: 31,
+                    total_messages: 210,
+                    drift_score: 5.4,
+                    talking_points: ["Word Hunt rivalry"],
+                    conversation_starters: ["ok we need to restart the word hunt rivalry i've been practicing lol"],
+                    subtitle: "It's been 31 days — worth a message?",
+                    last_message_preview: "",
+                    dismissed: false
+                )
+                let jamesNudge = Nudge(
+                    id: "james-sullivan-demo",
+                    contact_name: "James Sullivan",
+                    phone_or_email: "",
+                    days_since_contact: 18,
+                    total_messages: 240,
+                    drift_score: 5.1,
+                    talking_points: ["March Madness bracket"],
+                    conversation_starters: ["bro your bracket is cooked lmao, still watching?"],
+                    subtitle: "Time to reconnect after 18 days?",
+                    last_message_preview: "",
+                    dismissed: false
+                )
+                NotificationManager.shared.scheduleNudge(for: jadenNudge, delay: 8)
+                NotificationManager.shared.scheduleNudge(for: graceNudge, delay: 16)
+                NotificationManager.shared.scheduleNudge(for: jamesNudge, delay: 24)
                 NotificationManager.shared.scheduleWeeklyNudges(for: viewModel.nudges)
             }
         }
