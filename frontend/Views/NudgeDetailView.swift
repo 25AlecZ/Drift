@@ -15,9 +15,9 @@ struct NudgeDetailView: View {
                 } label: {
                     Image(systemName: "xmark")
                         .font(.system(size: 16, weight: .medium))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
                         .padding(10)
-                        .background(Color(.systemGray5), in: Circle())
+                        .background(Color(red: 0.90, green: 0.90, blue: 0.92), in: Circle())
                 }
             }
             .padding(.horizontal)
@@ -33,7 +33,7 @@ struct NudgeDetailView: View {
                             .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                         Text("It's been \(nudge.days_since_contact) days")
                             .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
                     }
                     .padding(.top, 8)
 
@@ -58,7 +58,7 @@ struct NudgeDetailView: View {
                                 } label: {
                                     HStack(alignment: .top, spacing: 8) {
                                         Text("•")
-                                            .foregroundStyle(.secondary)
+                                            .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
                                         Text(point)
                                             .font(.subheadline)
                                             .foregroundStyle(Color(red: 0.2, green: 0.22, blue: 0.28))
@@ -66,7 +66,7 @@ struct NudgeDetailView: View {
                                         Spacer()
                                         Image(systemName: "arrow.up.message")
                                             .font(.caption)
-                                            .foregroundStyle(.blue)
+                                            .foregroundStyle(Color(red: 0.2, green: 0.4, blue: 0.9))
                                     }
                                 }
                                 .buttonStyle(.plain)
@@ -74,7 +74,7 @@ struct NudgeDetailView: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(16)
-                        .background(Color(.systemGray6), in: RoundedRectangle(cornerRadius: 14))
+                        .background(Color(red: 0.95, green: 0.95, blue: 0.97), in: RoundedRectangle(cornerRadius: 14))
                     }
 
                     // Stay in touch?
@@ -105,7 +105,7 @@ struct NudgeDetailView: View {
                                     .font(.headline)
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 16)
-                                    .background(Color(.systemGray5))
+                                    .background(Color(red: 0.90, green: 0.90, blue: 0.92))
                                     .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                                     .clipShape(RoundedRectangle(cornerRadius: 14))
                             }
@@ -118,7 +118,7 @@ struct NudgeDetailView: View {
                                 .font(.headline)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 16)
-                                .background(Color(.systemGray6))
+                                .background(Color(red: 0.95, green: 0.95, blue: 0.97))
                                 .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                                 .clipShape(RoundedRectangle(cornerRadius: 14))
                         }
@@ -136,7 +136,7 @@ struct NudgeDetailView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 14))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 14)
-                                        .strokeBorder(Color(.systemGray4), lineWidth: 1)
+                                        .strokeBorder(Color(red: 0.78, green: 0.78, blue: 0.80), lineWidth: 1)
                                 )
                         }
                     }

@@ -19,6 +19,10 @@ struct NudgeListView: View {
                 VStack(spacing: 0) {
                     // Header
                     HStack {
+                        Image("DriftLogo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 36, height: 36)
                         Text("DRIFT")
                             .font(.system(size: 36, weight: .black, design: .serif))
                             .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
@@ -118,15 +122,16 @@ private struct NotificationListSheet: View {
             HStack {
                 Text("Recent Nudges")
                     .font(.headline)
+                    .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                 Spacer()
                 Button {
                     dismiss()
                 } label: {
                     Image(systemName: "xmark")
                         .font(.system(size: 14, weight: .medium))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
                         .padding(8)
-                        .background(Color(.systemGray5), in: Circle())
+                        .background(Color(red: 0.90, green: 0.90, blue: 0.92), in: Circle())
                 }
             }
             .padding()
@@ -136,7 +141,7 @@ private struct NotificationListSheet: View {
             if nudges.isEmpty {
                 Spacer()
                 Text("No recent nudges")
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
                 Spacer()
             } else {
                 ScrollView {
@@ -150,16 +155,16 @@ private struct NotificationListSheet: View {
                                     VStack(alignment: .leading, spacing: 2) {
                                         Text("Stay in touch with \(nudge.contact_name)")
                                             .font(.subheadline.bold())
-                                            .foregroundStyle(.primary)
+                                            .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                                             .multilineTextAlignment(.leading)
                                         Text("It's been \(nudge.days_since_contact) days")
                                             .font(.caption)
-                                            .foregroundStyle(.secondary)
+                                            .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
                                     }
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                         .font(.caption)
-                                        .foregroundStyle(.tertiary)
+                                        .foregroundStyle(Color(red: 0.7, green: 0.7, blue: 0.7))
                                 }
                                 .padding(.horizontal)
                                 .padding(.vertical, 12)
@@ -171,7 +176,7 @@ private struct NotificationListSheet: View {
                 }
             }
         }
-        .background(Color(.systemBackground))
+        .background(Color.white)
     }
 }
 

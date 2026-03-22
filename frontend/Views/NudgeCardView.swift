@@ -13,18 +13,18 @@ struct NudgeCardView: View {
                     .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                 Text("\(nudge.days_since_contact) days since last contact")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
             }
 
             Spacer()
 
             ZStack {
                 Circle()
-                    .fill(Color(.systemGray5))
+                    .fill(Color(red: 0.90, green: 0.90, blue: 0.92))
                     .frame(width: 36, height: 36)
                 Image(systemName: "arrow.right")
                     .font(.system(size: 14, weight: .medium))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
             }
         }
         .padding(16)
