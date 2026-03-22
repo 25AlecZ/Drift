@@ -30,10 +30,10 @@ struct NudgeDetailView: View {
                     VStack(spacing: 12) {
                         AvatarView(name: nudge.contact_name, size: 80)
                         Text(nudge.contact_name)
-                            .font(.title.bold())
+                            .font(.custom("EBGaramond", size: 28).bold())
                             .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                         Text("It's been \(nudge.days_since_contact) days")
-                            .font(.subheadline)
+                            .font(.custom("EBGaramond", size: 15))
                             .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
                     }
                     .padding(.top, 8)
@@ -42,7 +42,7 @@ struct NudgeDetailView: View {
                     if !nudge.talking_points.isEmpty {
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Talking points")
-                                .font(.subheadline.bold())
+                                .font(.custom("EBGaramond", size: 15).bold())
                                 .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                             ForEach(Array(nudge.talking_points.enumerated()), id: \.offset) { index, point in
                                 Button {
@@ -61,7 +61,7 @@ struct NudgeDetailView: View {
                                         Text("•")
                                             .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
                                         Text(point)
-                                            .font(.subheadline)
+                                            .font(.custom("EBGaramond", size: 15))
                                             .foregroundStyle(Color(red: 0.2, green: 0.22, blue: 0.28))
                                             .multilineTextAlignment(.leading)
                                         Spacer()
@@ -81,7 +81,7 @@ struct NudgeDetailView: View {
                     // Stay in touch?
                     VStack(spacing: 16) {
                         Text("Stay in touch?")
-                            .font(.headline)
+                            .font(.custom("EBGaramond", size: 17).bold())
                             .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
 
                         HStack(spacing: 12) {
@@ -90,7 +90,7 @@ struct NudgeDetailView: View {
                                 dismiss()
                             } label: {
                                 Text("Yes")
-                                    .font(.headline)
+                                    .font(.custom("EBGaramond", size: 17).bold())
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 16)
                                     .background(Color(red: 0.13, green: 0.15, blue: 0.22))
@@ -103,7 +103,7 @@ struct NudgeDetailView: View {
                                 dismiss()
                             } label: {
                                 Text("No")
-                                    .font(.headline)
+                                    .font(.custom("EBGaramond", size: 17).bold())
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 16)
                                     .background(Color(red: 0.90, green: 0.90, blue: 0.92))
@@ -120,7 +120,7 @@ struct NudgeDetailView: View {
                             dismiss()
                         } label: {
                             Label("Snooze", systemImage: "moon.fill")
-                                .font(.headline)
+                                .font(.custom("EBGaramond", size: 17).bold())
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 16)
                                 .background(Color(red: 0.95, green: 0.95, blue: 0.97))
@@ -133,7 +133,7 @@ struct NudgeDetailView: View {
                             dismiss()
                         } label: {
                             Text("Go to chat →")
-                                .font(.headline)
+                                .font(.custom("EBGaramond", size: 17).bold())
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 16)
                                 .background(Color.white)

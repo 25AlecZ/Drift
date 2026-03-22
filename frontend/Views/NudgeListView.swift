@@ -31,7 +31,7 @@ struct NudgeListView: View {
                             .scaledToFit()
                             .frame(width: 36, height: 36)
                         Text("DRIFT")
-                            .font(.system(size: 36, weight: .black, design: .serif))
+                            .font(.custom("EBGaramond", size: 36).bold())
                             .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                         Spacer()
                         Button {
@@ -65,10 +65,10 @@ struct NudgeListView: View {
                                 .font(.system(size: 48))
                                 .foregroundStyle(Color(red: 0.13, green: 0.15, blue: 0.22))
                             Text("No nudges right now")
-                                .font(.title3)
+                                .font(.custom("EBGaramond", size: 20))
                                 .foregroundStyle(Color(red: 0.13, green: 0.15, blue: 0.22))
                             Text("You're keeping up with everyone!")
-                                .font(.subheadline)
+                                .font(.custom("EBGaramond", size: 15))
                                 .foregroundStyle(Color(red: 0.13, green: 0.15, blue: 0.22).opacity(0.6))
                         }
                         Spacer()
@@ -133,7 +133,7 @@ private struct NotificationListSheet: View {
         VStack(spacing: 0) {
             HStack {
                 Text("Recent Nudges")
-                    .font(.headline)
+                    .font(.custom("EBGaramond", size: 17).bold())
                     .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                 Spacer()
                 Button {
@@ -166,11 +166,11 @@ private struct NotificationListSheet: View {
                                     AvatarView(name: nudge.contact_name, size: 44)
                                     VStack(alignment: .leading, spacing: 2) {
                                         Text("Stay in touch with \(nudge.contact_name)")
-                                            .font(.subheadline.bold())
+                                            .font(.custom("EBGaramond", size: 15).bold())
                                             .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                                             .multilineTextAlignment(.leading)
                                         Text("It's been \(nudge.days_since_contact) days")
-                                            .font(.caption)
+                                            .font(.custom("EBGaramond", size: 13))
                                             .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
                                     }
                                     Spacer()

@@ -5,6 +5,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Sparkling Valentine.ttf</string>
+		<string>EBGaramond-VariableFont_wght.ttf</string>
 	</array>
 </dict>
 </plist>

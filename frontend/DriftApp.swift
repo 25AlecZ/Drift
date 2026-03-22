@@ -50,7 +50,7 @@ struct SplashView: View {
                         .scaledToFit()
                         .frame(width: 80, height: 80)
                     Text("DRIFT")
-                        .font(.system(size: 48, weight: .black, design: .serif))
+                        .font(.custom("EBGaramond", size: 48).bold())
                         .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                 }
                 .opacity(opacity)
