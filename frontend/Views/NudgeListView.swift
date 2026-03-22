@@ -31,7 +31,7 @@ struct NudgeListView: View {
                             .scaledToFit()
                             .frame(width: 36, height: 36)
                         Text("DRIFT")
-                            .font(.custom("EBGaramond", size: 36).bold())
+                            .font(.system(size: 36, weight: .black, design: .serif))
                             .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                         Spacer()
                         Button {
@@ -204,6 +204,7 @@ private struct NotificationListSheet: View {
             drift_score: 6.2,
             talking_points: ["New job update", "That book you were reading", "Coffee plans"],
             conversation_starters: ["yo how's the new job going??", "did you ever finish that book lol", "dude we need to grab coffee soon fr"],
+            subtitle: "Reach out? It's been 67 days.",
             last_message_preview: "Yeah let's hang soon",
             dismissed: false
         ),
@@ -216,6 +217,7 @@ private struct NotificationListSheet: View {
             drift_score: 4.8,
             talking_points: ["That movie recommendation", "Family update"],
             conversation_starters: ["ok i finally watched that movie you told me about lmao", "how's the fam doing?"],
+            subtitle: "43 days of silence.",
             last_message_preview: "Miss you!",
             dismissed: false
         ),
@@ -228,6 +230,7 @@ private struct NotificationListSheet: View {
             drift_score: 3.5,
             talking_points: ["New apartment", "Morning runs"],
             conversation_starters: ["how's the new place treating you?", "you still doing those morning runs or did that die lol"],
+            subtitle: "Still thinking about them? 28 days.",
             last_message_preview: "Sounds good!",
             dismissed: false
         )

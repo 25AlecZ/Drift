@@ -100,11 +100,12 @@ Recent conversation:
 Search the web for current news or events related to their shared interests.
 Then generate exactly 3 talking points:
 - 2 should reference something real and current from the web (a game, story, event, release, news)
-- 1 should be a specific shared memory or inside topic from their conversation that is still relevant today
+- 1 should be inferred from the themes and topics in the conversation — do NOT quote or paraphrase any specific message, just infer what they care about
 
 Rules:
-- Short punchy phrases, not full sentences
-- Be specific, not generic
+- Short punchy bullet phrases, not full sentences (e.g. "His new apartment", "The NBA playoffs")
+- Never quote or closely paraphrase anything actually said in the messages
+- Be specific but inferred, not generic
 - The contemporary ones must be grounded in something you actually found via search
 
 Respond with ONLY a JSON array of 3 strings, no explanation."""
@@ -148,13 +149,26 @@ Respond with ONLY a JSON array of {len(topics)} strings, no explanation."""
     return _parse_json(response.text)[:len(topics)]
 
 
+def _generate_subtitle(client, days):
+    """Generate a short, varied nudge phrase to replace 'X days since last contact'."""
+    prompt = f"""Generate one short, casual phrase to show that someone hasn't talked to a friend in {days} days.
+
+It should feel natural and slightly playful — not clinical. Include the number of days.
+Examples: "Reach out? It's been {days} days.", "{days} days of silence.", "Haven't talked in {days} days."
+
+Respond with ONLY the phrase as a plain string, no quotes, no explanation."""
+    response = client.models.generate_content(model=GEMINI_MODEL, contents=prompt)
+    return response.text.strip().strip('"').strip("'")
+
+
 def _call_gemini(contact, conversation, tone_sample):
     """
-    Three-step Gemini pipeline:
+    Four-step Gemini pipeline:
     1. Extract interests from conversation
     2. Generate 3 short topic phrases (with search grounding)
     3. Write a full message for each topic (in user's tone)
-    Returns dict with 'talking_points' and 'conversation_starters'.
+    4. Generate a short subtitle phrase for the card/detail view
+    Returns dict with 'talking_points', 'conversation_starters', and 'subtitle'.
     """
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
@@ -171,7 +185,10 @@ def _call_gemini(contact, conversation, tone_sample):
     starters = _generate_conversation_starters(client, contact, topics, tone_sample)
     print(f"[Gemini] Starters: {starters}")
 
-    return {"talking_points": topics, "conversation_starters": starters}
+    subtitle = _generate_subtitle(client, contact["days_since_contact"])
+    print(f"[Gemini] Subtitle: {subtitle}")
+
+    return {"talking_points": topics, "conversation_starters": starters, "subtitle": subtitle}
 
 
 def enrich_with_talking_points(contacts, tone_sample=""):
@@ -187,10 +204,12 @@ def enrich_with_talking_points(contacts, tone_sample=""):
             result = _call_gemini(contact, conversation, tone_sample)
             contact["talking_points"] = result["talking_points"]
             contact["conversation_starters"] = result["conversation_starters"]
+            contact["subtitle"] = result["subtitle"]
             print(f"[Gemini] ✓ Done")
         except Exception as e:
             print(f"[Gemini] ERROR: {e}")
             contact["talking_points"] = []
             contact["conversation_starters"] = []
+            contact["subtitle"] = f"{contact['days_since_contact']} days since last contact"
 
     return contacts

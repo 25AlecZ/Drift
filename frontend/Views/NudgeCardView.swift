@@ -11,7 +11,7 @@ struct NudgeCardView: View {
                 Text(nudge.contact_name)
                     .font(.custom("EBGaramond", size: 17).bold())
                     .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
-                Text("\(nudge.days_since_contact) days since last contact")
+                Text(nudge.subtitle.isEmpty ? "\(nudge.days_since_contact) days since last contact" : nudge.subtitle)
                     .font(.custom("EBGaramond", size: 15))
                     .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
             }
@@ -63,6 +63,7 @@ struct AvatarView: View {
         drift_score: 6.2,
         talking_points: ["New job update", "That book you were reading"],
         conversation_starters: ["yo how's the new job going??", "did you ever finish that book lol"],
+        subtitle: "Reach out? It's been 67 days.",
         last_message_preview: "Yeah let's hang soon",
         dismissed: false
     )

@@ -32,7 +32,7 @@ struct NudgeDetailView: View {
                         Text(nudge.contact_name)
                             .font(.custom("EBGaramond", size: 28).bold())
                             .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
-                        Text("It's been \(nudge.days_since_contact) days")
+                        Text(nudge.subtitle.isEmpty ? "It's been \(nudge.days_since_contact) days" : nudge.subtitle)
                             .font(.custom("EBGaramond", size: 15))
                             .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
                     }
@@ -40,9 +40,9 @@ struct NudgeDetailView: View {
 
                     // Talking points
                     if !nudge.talking_points.isEmpty {
-                        VStack(alignment: .leading, spacing: 12) {
+                        VStack(alignment: .leading, spacing: 16) {
                             Text("Talking points")
-                                .font(.custom("EBGaramond", size: 15).bold())
+                                .font(.custom("EBGaramond", size: 18).bold())
                                 .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                             ForEach(Array(nudge.talking_points.enumerated()), id: \.offset) { index, point in
                                 Button {
@@ -57,24 +57,25 @@ struct NudgeDetailView: View {
                                     }
                                     dismiss()
                                 } label: {
-                                    HStack(alignment: .top, spacing: 8) {
+                                    HStack(alignment: .top, spacing: 10) {
                                         Text("•")
                                             .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
                                         Text(point)
-                                            .font(.custom("EBGaramond", size: 15))
+                                            .font(.custom("EBGaramond", size: 18))
                                             .foregroundStyle(Color(red: 0.2, green: 0.22, blue: 0.28))
                                             .multilineTextAlignment(.leading)
                                         Spacer()
                                         Image(systemName: "arrow.up.message")
-                                            .font(.caption)
+                                            .font(.system(size: 16))
                                             .foregroundStyle(Color(red: 0.2, green: 0.4, blue: 0.9))
                                     }
+                                    .padding(.vertical, 4)
                                 }
                                 .buttonStyle(.plain)
                             }
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(16)
+                        .padding(20)
                         .background(Color(red: 0.95, green: 0.95, blue: 0.97), in: RoundedRectangle(cornerRadius: 14))
                     }
 
@@ -165,6 +166,7 @@ struct NudgeDetailView: View {
         drift_score: 6.2,
         talking_points: ["New job update", "That book you were reading", "Warriors playoff run"],
         conversation_starters: ["yo how's the new job going??", "did you ever finish that book lol", "bro are you watching the warriors rn"],
+        subtitle: "Reach out? It's been 67 days.",
         last_message_preview: "Yeah let's hang soon",
         dismissed: false
     )
