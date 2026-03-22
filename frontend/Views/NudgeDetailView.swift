@@ -44,6 +44,7 @@ struct NudgeDetailView: View {
                             Text("Talking points")
                                 .font(.custom("EBGaramond", size: 18).bold())
                                 .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
+                                .frame(maxWidth: .infinity, alignment: .center)
                             ForEach(Array(nudge.talking_points.enumerated()), id: \.offset) { index, point in
                                 Button {
                                     let message = index < nudge.conversation_starters.count
