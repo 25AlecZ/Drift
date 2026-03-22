@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4036CB092F6FA8670086495E /* EBGaramond-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4036CB082F6FA8670086495E /* EBGaramond-VariableFont_wght.ttf */; };
 		40DC8FB22F6F5D9000FEB307 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40DC8FB12F6F5D9000FEB307 /* GoogleService-Info.plist */; };
 		44AF79492F6F2DE700879CDF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 44AF79482F6F2DE700879CDF /* FirebaseFirestore */; };
 		44AF794C2F6F2DE700879CDF /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 44AF794D2F6F2DE700879CDF /* FirebaseCore */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4036CB082F6FA8670086495E /* EBGaramond-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EBGaramond-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		40DC8FB12F6F5D9000FEB307 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		44AF794C2F6F3D4000879CDF /* Sparkling Valentine.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sparkling Valentine.ttf"; sourceTree = "<group>"; };
 		44AF794E2F6F3DB600879CDF /* Drift-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Drift-Info.plist"; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 		DC0000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
+				4036CB082F6FA8670086495E /* EBGaramond-VariableFont_wght.ttf */,
 				40DC8FB12F6F5D9000FEB307 /* GoogleService-Info.plist */,
 				44AF794E2F6F3DB600879CDF /* Drift-Info.plist */,
 				DA0000000000000000000001 /* DriftApp.swift */,
@@ -182,6 +185,7 @@
 			files = (
 				44AF794D2F6F3D4000879CDF /* Sparkling Valentine.ttf in Resources */,
 				DB0000000000000000000007 /* Assets.xcassets in Resources */,
+				4036CB092F6FA8670086495E /* EBGaramond-VariableFont_wght.ttf in Resources */,
 				40DC8FB22F6F5D9000FEB307 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
