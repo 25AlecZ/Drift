@@ -13,11 +13,10 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
     }
 
-    func scheduleNudge(for nudge: Nudge, delay: TimeInterval = 5) {
+    func scheduleNudge(for nudge: Nudge, delay: TimeInterval = 5, talkingPointIndex: Int = 0) {
         let content = UNMutableNotificationContent()
-        let talkingPointIndex = Int.random(in: 0..<max(1, nudge.talking_points.count))
         content.title = "Stay in touch with \(nudge.contact_name)"
-        content.body = nudge.talking_points.indices.contains(talkingPointIndex) ? nudge.talking_points[talkingPointIndex] : "It's been \(nudge.days_since_contact) days. Reach out!"
+        content.body = nudge.talking_points.indices.contains(talkingPointIndex) ? nudge.talking_points[talkingPointIndex] : nudge.talking_points.first ?? "It's been \(nudge.days_since_contact) days. Reach out!"
         content.sound = .default
         content.userInfo = ["nudgeId": nudge.id ?? "", "talkingPointIndex": talkingPointIndex]
 
@@ -37,11 +36,10 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
 
         for nudge in nudges {
             let content = UNMutableNotificationContent()
-            let talkingPointIndex = Int.random(in: 0..<max(1, nudge.talking_points.count))
             content.title = "Stay in touch with \(nudge.contact_name)"
-            content.body = nudge.talking_points.indices.contains(talkingPointIndex) ? nudge.talking_points[talkingPointIndex] : "It's been \(nudge.days_since_contact) days. Reach out!"
+            content.body = nudge.talking_points.first ?? "It's been \(nudge.days_since_contact) days. Reach out!"
             content.sound = .default
-            content.userInfo = ["nudgeId": nudge.id ?? "", "talkingPointIndex": talkingPointIndex]
+            content.userInfo = ["nudgeId": nudge.id ?? "", "talkingPointIndex": 0]
 
             let randomDelay = TimeInterval.random(in: 86400...604800)
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: randomDelay, repeats: false)
