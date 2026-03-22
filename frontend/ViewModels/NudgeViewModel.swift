@@ -29,10 +29,7 @@ class NudgeViewModel: ObservableObject {
         db?.collection("nudges").document(id).updateData(["dismissed": true])
     }
 
-    func keep(nudge: Nudge) {
-        // Nudge is already not dismissed; this is a no-op that just navigates back.
-        // Could be extended to set a "snoozed_until" field in the future.
-    }
+    func keep(nudge: Nudge) {}
 
     func sendMessage(to nudge: Nudge) {
         let raw = nudge.phone_or_email

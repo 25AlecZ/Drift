@@ -1,5 +1,6 @@
 import SwiftUI
 
+
 struct NudgeCardView: View {
     let nudge: Nudge
 
@@ -14,6 +15,8 @@ struct NudgeCardView: View {
                 Text(nudge.subtitle.isEmpty ? "\(nudge.days_since_contact) days since last contact" : nudge.subtitle)
                     .font(.custom("EBGaramond-Regular", size: 15))
                     .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
+                    .lineLimit(2)
+                    .frame(height: 40, alignment: .leading)
             }
 
             Spacer()

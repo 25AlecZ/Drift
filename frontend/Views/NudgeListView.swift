@@ -6,12 +6,21 @@ struct NudgeListView: View {
     @State private var highlightedTalkingPointIndex: Int? = nil
     @State private var showNotifications = false
     @State private var pendingNotificationIds: Set<String> = []
+    @State private var snoozedNudgeIds: Set<String> = []
 
     private var pendingNudges: [Nudge] {
         viewModel.nudges
             .filter { pendingNotificationIds.contains($0.id ?? "") }
             .sorted { $0.drift_score > $1.drift_score }
     }
+
+    private var snoozedNudges: [Nudge] {
+        viewModel.nudges
+            .filter { snoozedNudgeIds.contains($0.id ?? "") }
+            .sorted { $0.drift_score > $1.drift_score }
+    }
+
+    private var totalNotificationCount: Int { pendingNudges.count + snoozedNudges.count }
 
     init(viewModel: NudgeViewModel = NudgeViewModel()) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -44,8 +53,8 @@ struct NudgeListView: View {
                                     .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                                     .padding(12)
                                     .background(Color.white, in: Circle())
-                                if !pendingNudges.isEmpty {
-                                    Text("\(pendingNudges.count)")
+                                if totalNotificationCount > 0 {
+                                    Text("\(totalNotificationCount)")
                                         .font(.caption2.bold())
                                         .foregroundStyle(.white)
                                         .padding(4)
@@ -98,25 +107,47 @@ struct NudgeListView: View {
                 .onDisappear { highlightedTalkingPointIndex = nil }
         }
         .sheet(isPresented: $showNotifications) {
-            NotificationListSheet(nudges: pendingNudges) { nudge in
-                pendingNotificationIds.remove(nudge.id ?? "")
-                showNotifications = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                    selectedNudge = nudge
+            NotificationListSheet(
+                pendingNudges: pendingNudges,
+                snoozedNudges: snoozedNudges,
+                onSelectPending: { nudge in
+                    pendingNotificationIds.remove(nudge.id ?? "")
+                    showNotifications = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                        selectedNudge = nudge
+                    }
+                },
+                onSelectSnoozed: { nudge in
+                    snoozedNudgeIds.remove(nudge.id ?? "")
+                    showNotifications = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                        selectedNudge = nudge
+                    }
                 }
-            }
+            )
         }
+        // Notification delivered → add to bell list
+        .onReceive(NotificationCenter.default.publisher(for: .didDeliverNudgeNotification)) { note in
+            guard let nudgeId = note.object as? String, !nudgeId.isEmpty else { return }
+            pendingNotificationIds.insert(nudgeId)
+        }
+        // Notification banner tapped → remove from bell list, open detail
         .onReceive(NotificationCenter.default.publisher(for: .didTapNudgeNotification)) { note in
             guard let info = note.object as? [String: Any],
                   let nudgeId = info["nudgeId"] as? String else { return }
             let index = info["talkingPointIndex"] as? Int
-            pendingNotificationIds.insert(nudgeId)
+            pendingNotificationIds.remove(nudgeId)
             highlightedTalkingPointIndex = index
             selectedNudge = viewModel.nudges.first { $0.id == nudgeId }
         }
+        // Snooze tapped → move from pending to snoozed
+        .onReceive(NotificationCenter.default.publisher(for: .didSnoozeNudge)) { note in
+            guard let nudgeId = note.object as? String else { return }
+            pendingNotificationIds.remove(nudgeId)
+            snoozedNudgeIds.insert(nudgeId)
+        }
         .onAppear {
             viewModel.startListening()
-            // Demo: fire a single test notification 8 seconds after launch
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 let shuffled = viewModel.nudges.shuffled()
                 if let first = shuffled.first {
@@ -125,7 +156,6 @@ struct NudgeListView: View {
                 if shuffled.count > 1 {
                     NotificationManager.shared.scheduleNudge(for: shuffled[1], delay: 13)
                 }
-                // Schedule weekly nudges spread across the next 7 days
                 NotificationManager.shared.scheduleWeeklyNudges(for: viewModel.nudges)
             }
         }
@@ -134,14 +164,17 @@ struct NudgeListView: View {
 }
 
 private struct NotificationListSheet: View {
-    let nudges: [Nudge]
-    let onSelect: (Nudge) -> Void
+    let pendingNudges: [Nudge]
+    let snoozedNudges: [Nudge]
+    let onSelectPending: (Nudge) -> Void
+    let onSelectSnoozed: (Nudge) -> Void
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         VStack(spacing: 0) {
+            // Header
             HStack {
-                Text("Recent Nudges")
+                Text("Notifications")
                     .font(.custom("EBGaramond-Regular", size: 17).bold())
                     .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                 Spacer()
@@ -159,45 +192,77 @@ private struct NotificationListSheet: View {
 
             Divider()
 
-            if nudges.isEmpty {
+            if pendingNudges.isEmpty && snoozedNudges.isEmpty {
                 Spacer()
-                Text("No recent nudges")
+                Text("No notifications")
                     .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
                 Spacer()
             } else {
                 ScrollView {
-                    LazyVStack(spacing: 0) {
-                        ForEach(nudges) { nudge in
-                            Button {
-                                onSelect(nudge)
-                            } label: {
-                                HStack(spacing: 14) {
-                                    AvatarView(name: nudge.contact_name, size: 44)
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        Text("Stay in touch with \(nudge.contact_name)")
-                                            .font(.custom("EBGaramond-Regular", size: 15).bold())
-                                            .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
-                                            .multilineTextAlignment(.leading)
-                                        Text("It's been \(nudge.days_since_contact) days")
-                                            .font(.custom("EBGaramond-Regular", size: 13))
-                                            .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
-                                    }
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
-                                        .font(.caption)
-                                        .foregroundStyle(Color(red: 0.7, green: 0.7, blue: 0.7))
+                    LazyVStack(spacing: 0, pinnedViews: .sectionHeaders) {
+                        // Recent Nudges section
+                        if !pendingNudges.isEmpty {
+                            Section {
+                                ForEach(pendingNudges) { nudge in
+                                    nudgeRow(nudge: nudge) { onSelectPending(nudge) }
                                 }
-                                .padding(.horizontal)
-                                .padding(.vertical, 12)
+                            } header: {
+                                sectionHeader("Recent Nudges")
                             }
-                            .buttonStyle(.plain)
-                            Divider().padding(.leading, 72)
+                        }
+
+                        // Snoozed section
+                        if !snoozedNudges.isEmpty {
+                            Section {
+                                ForEach(snoozedNudges) { nudge in
+                                    nudgeRow(nudge: nudge) { onSelectSnoozed(nudge) }
+                                }
+                            } header: {
+                                sectionHeader("Snoozed")
+                            }
                         }
                     }
                 }
             }
         }
         .background(Color.white)
+    }
+
+    private func sectionHeader(_ title: String) -> some View {
+        Text(title)
+            .font(.custom("EBGaramond-Regular", size: 13).bold())
+            .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal)
+            .padding(.vertical, 8)
+            .background(Color.white)
+    }
+
+    private func nudgeRow(nudge: Nudge, action: @escaping () -> Void) -> some View {
+        Group {
+            Button(action: action) {
+                HStack(spacing: 14) {
+                    AvatarView(name: nudge.contact_name, size: 44)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Stay in touch with \(nudge.contact_name)")
+                            .font(.custom("EBGaramond-Regular", size: 15).bold())
+                            .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
+                            .multilineTextAlignment(.leading)
+                        Text("It's been \(nudge.days_since_contact) days")
+                            .font(.custom("EBGaramond-Regular", size: 13))
+                            .foregroundStyle(Color(red: 0.5, green: 0.5, blue: 0.5))
+                    }
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.caption)
+                        .foregroundStyle(Color(red: 0.7, green: 0.7, blue: 0.7))
+                }
+                .padding(.horizontal)
+                .padding(.vertical, 12)
+            }
+            .buttonStyle(.plain)
+            Divider().padding(.leading, 72)
+        }
     }
 }
 

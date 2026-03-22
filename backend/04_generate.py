@@ -99,8 +99,9 @@ Recent conversation:
 
 Search the web for current news or events related to their shared interests.
 Then generate exactly 3 talking points:
-- 2 should reference something real and current from the web (a game, story, event, release, news)
+- 1 should reference something real and current from the web (a game, story, event, release, news)
 - 1 should be inferred from the themes and topics in the conversation — do NOT quote or paraphrase any specific message, just infer what they care about
+- 1 should be about creating a shared experience together (e.g. "Let's check out that new cafe") based on common interests or past activities
 
 Rules:
 - Short punchy bullet phrases, not full sentences (e.g. "His new apartment", "The NBA playoffs")
@@ -139,9 +140,11 @@ Write one complete, ready-to-send text message for each of these topics:
 
 Rules:
 - Each message must be complete and ready to send immediately — no placeholders, no brackets, no [NAME]
-- Match the sender's casual style from the examples above exactly
-- 1-3 sentences max per message
+- Match the sender's casual style from the examples above exactly but keep the content simple and natural
+- 1-2 sentences max per message
 - Do not start every message with "Hey" — vary the openers
+- consider emojis and abbreviations if they fit the sender's style and the message, but don't force them in every message
+
 
 Respond with ONLY a JSON array of {len(topics)} strings, no explanation."""
 
@@ -151,12 +154,12 @@ Respond with ONLY a JSON array of {len(topics)} strings, no explanation."""
 
 def _generate_subtitle(client, days):
     """Generate a short, varied nudge phrase to replace 'X days since last contact'."""
-    prompt = f"""Generate one short, casual phrase to show that someone hasn't talked to a friend in {days} days.
+    prompt = f"""Generate one short question asking if someone wants to reach out to a friend they haven't talked to in {days} days. Must include the number of days.
 
-It should feel natural and slightly playful — not clinical. Include the number of days.
-Examples: "Reach out? It's been {days} days.", "{days} days of silence.", "Haven't talked in {days} days."
+Format: a casual, short question. Always a question (ends with ?). Include "{days} days" somewhere.
+Examples: "Time to reach out after {days} days?", "It's been {days} days — worth a message?", "Reconnect after {days} days?"
 
-Respond with ONLY the phrase as a plain string, no quotes, no explanation."""
+Respond with ONLY the question as a plain string, no quotes, no explanation."""
     response = client.models.generate_content(model=GEMINI_MODEL, contents=prompt)
     return response.text.strip().strip('"').strip("'")
 
@@ -210,6 +213,6 @@ def enrich_with_talking_points(contacts, tone_sample=""):
             print(f"[Gemini] ERROR: {e}")
             contact["talking_points"] = []
             contact["conversation_starters"] = []
-            contact["subtitle"] = f"{contact['days_since_contact']} days since last contact"
+            contact["subtitle"] = f"Time to reach out after {contact['days_since_contact']} days?"
 
     return contacts

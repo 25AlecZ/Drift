@@ -120,6 +120,7 @@ struct NudgeDetailView: View {
                                 withIdentifiers: ["weekly-\(nudge.id ?? "")"]
                             )
                             NotificationManager.shared.scheduleNudge(for: nudge, delay: 86400)
+                            NotificationCenter.default.post(name: .didSnoozeNudge, object: nudge.id ?? "")
                             dismiss()
                         } label: {
                             Label("Snooze", systemImage: "moon.fill")

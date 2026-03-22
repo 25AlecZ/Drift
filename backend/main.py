@@ -37,10 +37,6 @@ from contacts_lookup import build_contacts_map, resolve_name
 
 
 def main():
-    # Step 0: Build tone sample from user's own messages
-    print("=== Step 0: Building tone sample ===")
-    tone_sample = tone_mod.build_tone_sample()
-
     # Steps 1 & 2: Extract and hard-filter contacts from iMessage
     print("=== Steps 1 & 2: Extracting and filtering contacts ===")
     all_contacts = filter_mod.get_contact_stats()
@@ -62,15 +58,19 @@ def main():
             continue
         enriched_candidates.append(c)
 
-    candidates = enriched_candidates[:10]
+    candidates = enriched_candidates[:3]
     print(f"Found {len(enriched_candidates)} saved contacts, sending top {len(candidates)} to Gemini\n")
 
     # Step 3: Semantic filter — Gemini reads conversations and decides who's worth reconnecting with
     print("=== Step 3: Semantic filtering with Gemini ===")
     recommended = semantic_filter_mod.semantic_filter(candidates)
 
-    # Step 4: Generate talking points for recommended contacts only
-    print("=== Step 4: Generating talking points with Gemini ===")
+    # Step 4: Build tone sample using only messages sent to recommended contacts
+    print("=== Step 4: Building tone sample from recommended contacts ===")
+    tone_sample = tone_mod.build_tone_sample(recommended)
+
+    # Step 5: Generate talking points for recommended contacts only
+    print("=== Step 5: Generating talking points with Gemini ===")
     enriched = generate_mod.enrich_with_talking_points(recommended, tone_sample)
     print()
 
@@ -81,8 +81,8 @@ def main():
         for point in c.get("talking_points", []):
             print(f"  • {point}")
 
-    # Step 5: Sync to Firestore
-    print("\n=== Step 5: Syncing to Firestore ===")
+    # Step 6: Sync to Firestore
+    print("\n=== Step 6: Syncing to Firestore ===")
     sync_nudges_to_firestore(enriched)
 
 

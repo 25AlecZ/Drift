@@ -30,12 +30,10 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
     }
 
     func scheduleWeeklyNudges(for nudges: [Nudge]) {
-        // Cancel any previously scheduled weekly nudges
         UNUserNotificationCenter.current().removePendingNotificationRequests(
             withIdentifiers: nudges.compactMap { "weekly-\($0.id ?? "")" }
         )
 
-        // Spread nudges randomly across the next 7 days
         for nudge in nudges {
             let content = UNMutableNotificationContent()
             content.title = "Stay in touch with \(nudge.contact_name)"
@@ -43,7 +41,6 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
             content.sound = .default
             content.userInfo = ["nudgeId": nudge.id ?? "", "talkingPointIndex": 0]
 
-            // Random time within the next 7 days (between 1 and 7 days from now)
             let randomDelay = TimeInterval.random(in: 86400...604800)
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: randomDelay, repeats: false)
             let request = UNNotificationRequest(
@@ -55,7 +52,7 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         }
     }
 
-    // Called when notification is tapped
+    // Called when notification banner is tapped — remove from pending, open detail
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         didReceive response: UNNotificationResponse,
@@ -68,16 +65,20 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         completionHandler()
     }
 
-    // Show notification even when app is in foreground
+    // Called when notification is delivered — add to bell icon list
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
+        let nudgeId = notification.request.content.userInfo["nudgeId"] as? String ?? ""
+        NotificationCenter.default.post(name: .didDeliverNudgeNotification, object: nudgeId)
         completionHandler([.banner, .sound])
     }
 }
 
 extension Notification.Name {
-    static let didTapNudgeNotification = Notification.Name("didTapNudgeNotification")
+    static let didTapNudgeNotification    = Notification.Name("didTapNudgeNotification")
+    static let didDeliverNudgeNotification = Notification.Name("didDeliverNudgeNotification")
+    static let didSnoozeNudge             = Notification.Name("didSnoozeNudge")
 }
