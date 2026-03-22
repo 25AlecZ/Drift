@@ -118,8 +118,12 @@ struct NudgeListView: View {
             viewModel.startListening()
             // Demo: fire a single test notification 8 seconds after launch
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                if let nudge = viewModel.nudges.randomElement() {
-                    NotificationManager.shared.scheduleNudge(for: nudge, delay: 8)
+                let shuffled = viewModel.nudges.shuffled()
+                if let first = shuffled.first {
+                    NotificationManager.shared.scheduleNudge(for: first, delay: 8)
+                }
+                if shuffled.count > 1 {
+                    NotificationManager.shared.scheduleNudge(for: shuffled[1], delay: 13)
                 }
                 // Schedule weekly nudges spread across the next 7 days
                 NotificationManager.shared.scheduleWeeklyNudges(for: viewModel.nudges)
