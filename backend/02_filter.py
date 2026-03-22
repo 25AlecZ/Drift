@@ -42,8 +42,10 @@ def get_contact_stats():
 
 
 def is_real_contact(contact_id):
-    """Filter out short codes (businesses/SMS services) and obvious spam."""
+    """Filter out short codes (businesses/SMS services), emails, and obvious spam."""
     if re.fullmatch(r'\d{4,6}', contact_id):
+        return False
+    if '@' in contact_id:
         return False
     spam_indicators = ['hotmail.xyz', 'uigmail', 'faafp.cn', 'hd3-bu1', 'fdir-a1', 'solveit']
     if any(s in contact_id for s in spam_indicators):
