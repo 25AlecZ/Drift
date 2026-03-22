@@ -185,7 +185,8 @@ private struct NotificationListSheet: View {
             days_since_contact: 67,
             total_messages: 200,
             drift_score: 6.2,
-            talking_points: ["How's the new job going?", "Did you finish that book you were reading?", "We should grab coffee when I'm in town"],
+            talking_points: ["New job update", "That book you were reading", "Coffee plans"],
+            conversation_starters: ["yo how's the new job going??", "did you ever finish that book lol", "dude we need to grab coffee soon fr"],
             last_message_preview: "Yeah let's hang soon",
             dismissed: false
         ),
@@ -196,7 +197,8 @@ private struct NotificationListSheet: View {
             days_since_contact: 43,
             total_messages: 150,
             drift_score: 4.8,
-            talking_points: ["Saw that movie you recommended!", "How's the family?"],
+            talking_points: ["That movie recommendation", "Family update"],
+            conversation_starters: ["ok i finally watched that movie you told me about lmao", "how's the fam doing?"],
             last_message_preview: "Miss you!",
             dismissed: false
         ),
@@ -207,7 +209,8 @@ private struct NotificationListSheet: View {
             days_since_contact: 28,
             total_messages: 300,
             drift_score: 3.5,
-            talking_points: ["How's the new apartment?", "Are you still doing those runs?"],
+            talking_points: ["New apartment", "Morning runs"],
+            conversation_starters: ["how's the new place treating you?", "you still doing those morning runs or did that die lol"],
             last_message_preview: "Sounds good!",
             dismissed: false
         )

@@ -8,6 +8,7 @@ struct Nudge: Identifiable, Codable, Hashable {
     var total_messages: Int
     var drift_score: Double
     var talking_points: [String]
+    var conversation_starters: [String]
     var last_message_preview: String
     var dismissed: Bool
 }

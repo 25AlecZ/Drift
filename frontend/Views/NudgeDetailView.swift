@@ -43,14 +43,33 @@ struct NudgeDetailView: View {
                             Text("Talking points")
                                 .font(.subheadline.bold())
                                 .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
-                            ForEach(nudge.talking_points, id: \.self) { point in
-                                HStack(alignment: .top, spacing: 8) {
-                                    Text("•")
-                                        .foregroundStyle(.secondary)
-                                    Text(point)
-                                        .font(.subheadline)
-                                        .foregroundStyle(Color(red: 0.2, green: 0.22, blue: 0.28))
+                            ForEach(Array(nudge.talking_points.enumerated()), id: \.offset) { index, point in
+                                Button {
+                                    let message = index < nudge.conversation_starters.count
+                                        ? nudge.conversation_starters[index] : point
+                                    let encoded = message.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                                    let raw = nudge.phone_or_email
+                                        .components(separatedBy: CharacterSet.decimalDigits.inverted)
+                                        .joined()
+                                    if let url = URL(string: "sms:\(raw)&body=\(encoded)") {
+                                        UIApplication.shared.open(url)
+                                    }
+                                    dismiss()
+                                } label: {
+                                    HStack(alignment: .top, spacing: 8) {
+                                        Text("•")
+                                            .foregroundStyle(.secondary)
+                                        Text(point)
+                                            .font(.subheadline)
+                                            .foregroundStyle(Color(red: 0.2, green: 0.22, blue: 0.28))
+                                            .multilineTextAlignment(.leading)
+                                        Spacer()
+                                        Image(systemName: "arrow.up.message")
+                                            .font(.caption)
+                                            .foregroundStyle(.blue)
+                                    }
                                 }
+                                .buttonStyle(.plain)
                             }
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)

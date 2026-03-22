@@ -27,6 +27,7 @@ def load(filename):
     return mod
 
 
+tone_mod            = load("00_tone.py")
 filter_mod          = load("02_filter.py")
 semantic_filter_mod = load("03_filter_semantic.py")
 generate_mod        = load("04_generate.py")
@@ -36,6 +37,10 @@ from contacts_lookup import build_contacts_map, resolve_name
 
 
 def main():
+    # Step 0: Build tone sample from user's own messages
+    print("=== Step 0: Building tone sample ===")
+    tone_sample = tone_mod.build_tone_sample()
+
     # Steps 1 & 2: Extract and hard-filter contacts from iMessage
     print("=== Steps 1 & 2: Extracting and filtering contacts ===")
     all_contacts = filter_mod.get_contact_stats()
@@ -66,7 +71,7 @@ def main():
 
     # Step 4: Generate talking points for recommended contacts only
     print("=== Step 4: Generating talking points with Gemini ===")
-    enriched = generate_mod.enrich_with_talking_points(recommended)
+    enriched = generate_mod.enrich_with_talking_points(recommended, tone_sample)
     print()
 
     # Print results

@@ -21,4 +21,5 @@ DerivedData/
 build/
 
 output.txt
+backend/tone_sample.md
 .DS_Store
