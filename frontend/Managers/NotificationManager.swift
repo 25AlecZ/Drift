@@ -29,6 +29,32 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().add(request)
     }
 
+    func scheduleWeeklyNudges(for nudges: [Nudge]) {
+        // Cancel any previously scheduled weekly nudges
+        UNUserNotificationCenter.current().removePendingNotificationRequests(
+            withIdentifiers: nudges.compactMap { "weekly-\($0.id ?? "")" }
+        )
+
+        // Spread nudges randomly across the next 7 days
+        for nudge in nudges {
+            let content = UNMutableNotificationContent()
+            content.title = "Stay in touch with \(nudge.contact_name)"
+            content.body = nudge.talking_points.first ?? "It's been \(nudge.days_since_contact) days. Reach out!"
+            content.sound = .default
+            content.userInfo = ["nudgeId": nudge.id ?? ""]
+
+            // Random time within the next 7 days (between 1 and 7 days from now)
+            let randomDelay = TimeInterval.random(in: 86400...604800)
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: randomDelay, repeats: false)
+            let request = UNNotificationRequest(
+                identifier: "weekly-\(nudge.id ?? UUID().uuidString)",
+                content: content,
+                trigger: trigger
+            )
+            UNUserNotificationCenter.current().add(request)
+        }
+    }
+
     // Called when notification is tapped
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,

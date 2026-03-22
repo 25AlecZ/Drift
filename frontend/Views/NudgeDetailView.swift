@@ -1,4 +1,5 @@
 import SwiftUI
+import UserNotifications
 
 struct NudgeDetailView: View {
     let nudge: Nudge
@@ -112,9 +113,13 @@ struct NudgeDetailView: View {
                         }
 
                         Button {
+                            UNUserNotificationCenter.current().removePendingNotificationRequests(
+                                withIdentifiers: ["weekly-\(nudge.id ?? "")"]
+                            )
+                            NotificationManager.shared.scheduleNudge(for: nudge, delay: 86400)
                             dismiss()
                         } label: {
-                            Text("Snooze")
+                            Label("Snooze", systemImage: "moon.fill")
                                 .font(.headline)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 16)

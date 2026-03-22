@@ -4,6 +4,13 @@ struct NudgeListView: View {
     @StateObject private var viewModel: NudgeViewModel
     @State private var selectedNudge: Nudge? = nil
     @State private var showNotifications = false
+    @State private var pendingNotificationIds: Set<String> = []
+
+    private var pendingNudges: [Nudge] {
+        viewModel.nudges
+            .filter { pendingNotificationIds.contains($0.id ?? "") }
+            .sorted { $0.drift_score > $1.drift_score }
+    }
 
     init(viewModel: NudgeViewModel = NudgeViewModel()) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -36,8 +43,8 @@ struct NudgeListView: View {
                                     .foregroundStyle(Color(red: 0.1, green: 0.12, blue: 0.18))
                                     .padding(12)
                                     .background(Color.white, in: Circle())
-                                if !viewModel.nudges.isEmpty {
-                                    Text("\(viewModel.nudges.count)")
+                                if !pendingNudges.isEmpty {
+                                    Text("\(pendingNudges.count)")
                                         .font(.caption2.bold())
                                         .foregroundStyle(.white)
                                         .padding(4)
@@ -89,7 +96,8 @@ struct NudgeListView: View {
             NudgeDetailView(nudge: nudge, viewModel: viewModel)
         }
         .sheet(isPresented: $showNotifications) {
-            NotificationListSheet(nudges: viewModel.nudges.sorted { $0.drift_score > $1.drift_score }) { nudge in
+            NotificationListSheet(nudges: pendingNudges) { nudge in
+                pendingNotificationIds.remove(nudge.id ?? "")
                 showNotifications = false
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                     selectedNudge = nudge
@@ -98,14 +106,18 @@ struct NudgeListView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .didTapNudgeNotification)) { note in
             guard let nudgeId = note.object as? String else { return }
+            pendingNotificationIds.insert(nudgeId)
             selectedNudge = viewModel.nudges.first { $0.id == nudgeId }
         }
         .onAppear {
             viewModel.startListening()
+            // Demo: fire a single test notification 8 seconds after launch
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 if let nudge = viewModel.nudges.randomElement() {
                     NotificationManager.shared.scheduleNudge(for: nudge, delay: 8)
                 }
+                // Schedule weekly nudges spread across the next 7 days
+                NotificationManager.shared.scheduleWeeklyNudges(for: viewModel.nudges)
             }
         }
         .onDisappear { viewModel.stopListening() }
