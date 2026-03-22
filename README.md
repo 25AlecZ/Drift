@@ -44,6 +44,13 @@ python3 main.py
 
 Open `frontend/` in Xcode, add your `GoogleService-Info.plist`, and run on a device or simulator.
 
+## Screenshots
+
+| | | | | |
+|---|---|---|---|---|
+| ![Home](screenshots/home.png) | ![Notification banner](screenshots/notification_banner.png) | ![Notifications sheet](screenshots/notifications_sheet.png) | ![Detail](screenshots/detail.png) | ![iMessage](screenshots/imessage.png) |
+| **Home** — ranked nudge cards with AI-generated subtitles | **Notification** — live banner with a talking point | **Notifications sheet** — recent and snoozed nudges | **Detail** — talking points and quick actions | **iMessage** — conversation starter pre-filled and ready to send |
+
 ## Requirements
 
 - macOS with iMessage history
