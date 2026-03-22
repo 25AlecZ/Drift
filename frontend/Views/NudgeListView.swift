@@ -63,13 +63,13 @@ struct NudgeListView: View {
                         VStack(spacing: 12) {
                             Image(systemName: "person.2.fill")
                                 .font(.system(size: 48))
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color(red: 0.13, green: 0.15, blue: 0.22))
                             Text("No nudges right now")
                                 .font(.title3)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color(red: 0.13, green: 0.15, blue: 0.22))
                             Text("You're keeping up with everyone!")
                                 .font(.subheadline)
-                                .foregroundStyle(.tertiary)
+                                .foregroundStyle(Color(red: 0.13, green: 0.15, blue: 0.22).opacity(0.6))
                         }
                         Spacer()
                     } else {
