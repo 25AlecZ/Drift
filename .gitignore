@@ -23,3 +23,9 @@ build/
 output.txt
 backend/tone_sample.md
 .DS_Store
+
+# Docs / assets not for repo
+OVERVIEW.md
+TECHSTACK.md
+backend/backendDocumentation.md
+frontend/Sparkling Valentine.ttf
